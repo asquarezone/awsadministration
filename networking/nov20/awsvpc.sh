@@ -39,4 +39,13 @@ aws ec2 associate-route-table --route-table-id $pub_rt_id  --subnet-id 'subnet-0
 aws ec2 associate-route-table --route-table-id $pri_rt_id  --subnet-id 'subnet-085e842b0137a2308'
 aws ec2 associate-route-table --route-table-id $pri_rt_id  --subnet-id 'subnet-0dbc628a0a5daa03f'
 
+# web Security Group
+aws ec2 create-security-group --description 'web sg' --group-name 'web' --vpc-id $vpc_id  --tag-specifications 'ResourceType=security-group,Tags=[{Key="Name",Value="web"}]'
 
+aws ec2 authorize-security-group-ingress --group-id sg-0b16a13e9892355a1 --protocol tcp --port 80 --cidr 0.0.0.0/0
+
+# network acl
+aws ec2 create-network-acl --vpc $vpc_id  --tag-specifications 'ResourceType=network-acl,Tags=[{Key="Name",Value="web-acl"}]'
+#nacl_id=acl-04d687ee59684f6ee
+
+aws ec2 create-network-acl-entry --network-acl-id acl-04d687ee59684f6ee --ingress --port-range From=80,To=80 --cidr-block 0.0.0.0/0 --rule-action allow --rule-number 100 --protocol tcp
