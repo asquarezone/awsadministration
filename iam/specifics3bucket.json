@@ -3,8 +3,19 @@
     "Statement": [
         {
             "Effect": "Allow",
-            "Actions": "*",
+            "Action": "*",
             "Resource": "arn:aws:s3:::ltiamtesting"
+        },
+        {
+            "Effect": "Allow",
+            "Action": ["s3:Get*", "s3:List*"],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "arn:aws:s3:::ltiamtesting/*"
         }
+
     ]
 }
