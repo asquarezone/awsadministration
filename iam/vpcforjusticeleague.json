@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect" : "Allow",
+            "Action": "*",
+            "Resource": "arn:aws:ec2:us-west-2:*:vpc/vpc-003a280bb2275192a"
+        },
+        {
+            "Effect" : "Allow",
+            "Action": ["ec2:DescribeAddresses", "ec2:DescribeAvailabilityZones", "ec2:DescribeRouteTables","ec2:DescribeSecurityGroups", "ec2:DescribeSubnets","ec2:DescribeVpc*", "ec2:DescribeNetwork*","ec2:DescribeDhcp*" ],
+            "Resource": "*"
+        },
+        {
+            "Effect":"Allow",
+            "Action":"*",
+            "Resource": ["arn:aws:ec2:us-west-2:*:subnet/*"]
+        }
+
+    ]
+}
