@@ -1,0 +1,19 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect" : "Deny",
+            "Action": "ec2:*",
+            "Resource": "*",
+            "Condition": { "StringLike": {"ec2:Vpc":"*vpc-003a280bb2275192a*"}}
+        },
+        {
+            "Effect" : "Allow",
+            "Action": "ec2:*",
+            "Resource": "*"
+
+        }
+        
+    ]
+
+}
