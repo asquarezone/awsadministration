@@ -19,3 +19,9 @@ done
 # get the first subnet
 subnet_id=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpc_id" --query "Subnets[0].SubnetId" --output text)
 
+# Create a public key if required 
+# ssh-keygen
+
+aws ec2 import-key-pair --key-name "my-key" --public-key-material fileb://~/.ssh/id_rsa.pub
+
+# Create an ec2 instance with the security group and key created over here
