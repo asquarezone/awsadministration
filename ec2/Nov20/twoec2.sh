@@ -47,3 +47,23 @@ default_instance_type='t2.micro'
 aws ec2 run-instances --image-id $ubuntu_20_amiid --instance-type $default_instance_type --key-name $key_name --security-group-ids $sg_id --subnet-id $subnet_a --count 1
 
 aws ec2 run-instances --image-id $windows_2019_amid --instance-type $default_instance_type --key-name $key_name --security-group-ids $sg_id --subnet-id $subnet_b --count 1
+
+# fetch ubuntu instance ami id
+ubuntu_20_instance_id=$(aws ec2 describe-instances --filter "Name=image-id,Values=${ubuntu_20_amiid}" --query "Reservations[].Instances[0].InstanceId" --output text)
+# fetch ubuntu instance public ip address
+ubuntu_20_public_ip=$(aws ec2 describe-instances --filter "Name=instance-id,Values=${ubuntu_20_instance_id}" --query "Reservations[].Instances[0].PublicIpAddress" --output text)
+
+echo "preparing login command"
+# login into ec2 instance
+echo "ssh -i ~/.ssh/id_rsa ubuntu@${ubuntu_20_public_ip}"
+
+# Lets get Windows instance id and windows public ip address
+windows_2019_instance_id=$(aws ec2 describe-instances --filter "Name=image-id,Values=${windows_2019_amid}" --query "Reservations[].Instances[0].InstanceId" --output text)
+windows_2019_public_ip=$(aws ec2 describe-instances --filter "Name=instance-id,Values=${windows_2019_instance_id}" --query "Reservations[].Instances[0].PublicIpAddress" --output text)
+
+aws ec2 get-password-data --instance-id "${windows_2019_instance_id}" --priv-launch-key "~/.ssh/id_rsa" 
+
+## Deleting ec2 instance
+aws ec2 terminate-instances --instance-ids "${windows_2019_instance_id}" "${ubuntu_20_instance_id}"
+aws ec2 delete-key-pair --key-name $key_name
+aws ec2 delete-security-group --group-id $sg_id
