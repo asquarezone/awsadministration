@@ -1,0 +1,33 @@
+{
+    "Version": "2012-10-17",
+    "Id": "Policy1608868865480",
+    "Statement": [
+        {
+            "Sid": "Stmt1608868785705",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::*:user/developer"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::ltsamples3/*"
+        },
+        {
+            "Sid": "Stmt1608868861098",
+            "Effect": "Deny",
+            "Principal": {
+                "AWS": "arn:aws:iam::*:user/developer"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::ltsamples3/*"
+        },
+        {
+            "Sid": "Stmt1608868785705",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::*:user/admin"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::ltsamples3/*"
+        }
+    ]
+}
