@@ -7,3 +7,5 @@ aws rds create-db-instance --db-instance-identifier 'qtrdsfromcli' --allocated-s
 aws rds describe-db-instances
 
 aws rds describe-db-instances --db-instance-identifier 'qtrdsfromcli'
+
+aws rds delete-db-instance --db-instance-identifier 'qtrdsfromcli' --skip-final-snapshot 
