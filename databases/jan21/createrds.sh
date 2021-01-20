@@ -23,4 +23,7 @@ aws rds describe-db-snapshots --query "DBSnapshots[*].{Snapshot:DBSnapshotIdenti
 aws rds create-db-instance-read-replica --db-instance-identifier 'qtrdsreplicafromcli' --source-db-instance-identifier 'qtrdsfromcli' --db-instance-class 'db.t2.micro' --publicly-accessible --no-multi-az --no-auto-minor-version-upgrade --vpc-security-group-ids "sg-075892da85bd09fc0"
 aws rds describe-db-instances --query "DBInstances[*].{DBID: DBInstanceIdentifier, Status: DBInstanceStatus}" --output table
 
+# promote read replica
+aws rds promote-read-replica --db-instance-identifier 'qtrdsreplicafromcli'
+
 aws rds delete-db-instance --db-instance-identifier 'qtrdsfromcli' --skip-final-snapshot 
