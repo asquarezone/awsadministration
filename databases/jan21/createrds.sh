@@ -8,4 +8,15 @@ aws rds describe-db-instances
 
 aws rds describe-db-instances --db-instance-identifier 'qtrdsfromcli'
 
+# Create a db snapshot
+aws rds create-db-snapshot --db-instance-identifier 'qtrdsfromcli' --db-snapshot-identifier 'snapshotfromcli'
+
+aws rds describe-db-snapshots 
+
+aws rds describe-db-snapshots --query "DBSnapshots[*].{Snapshot:DBSnapshotIdentifier,InstanceID:DBInstanceIdentifier,Status:Status}"
+
+aws rds describe-db-snapshots --query "DBSnapshots[*].{Snapshot:DBSnapshotIdentifier,InstanceID:DBInstanceIdentifier,Status:Status}" --output yaml
+
+aws rds describe-db-snapshots --query "DBSnapshots[*].{Snapshot:DBSnapshotIdentifier,InstanceID:DBInstanceIdentifier,Status:Status}" --output table
+
 aws rds delete-db-instance --db-instance-identifier 'qtrdsfromcli' --skip-final-snapshot 
