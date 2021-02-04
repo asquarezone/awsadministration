@@ -1,10 +1,19 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "vpcrange": {
+            "Description": "Enter the cidr range of vpc",
+            "Type": "String",
+            "Default": "10.10.0.0/16"
+        }
+    },
     "Resources": {
         "ntiervpc": {
             "Type": "AWS::EC2::VPC",
             "Properties": {
-                "CidrBlock": "10.10.0.0/16",
+                "CidrBlock": {
+                    "Ref": "vpcrange"
+                },
                 "Tags": [
                     {
                         "Key": "Name",
