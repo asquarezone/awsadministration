@@ -5,6 +5,15 @@
             "Description": "Enter the cidr range of vpc",
             "Type": "String",
             "Default": "10.10.0.0/16"
+        },
+        "web1subnetcidr": {
+            "Description": "Enter the cidr range of web subnet",
+            "Type": "String",
+            "Default": "10.10.0.0/24"
+        },
+        "web1az": {
+            "Description": "Select the AZ for web1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
         }
     },
     "Resources": {
@@ -18,6 +27,26 @@
                     {
                         "Key": "Name",
                         "Value": "From CF"
+                    }
+                ]
+            }
+        },
+        "web1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "web1az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "web1subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Web"
                     }
                 ]
             }
