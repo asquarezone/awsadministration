@@ -14,6 +14,51 @@
         "web1az": {
             "Description": "Select the AZ for web1 subnet",
             "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "web2subnetcidr": {
+            "Description": "Enter the cidr range of web2 subnet",
+            "Type": "String",
+            "Default": "10.10.1.0/24"
+        },
+        "web2az": {
+            "Description": "Select the AZ for web2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "app1subnetcidr": {
+            "Description": "Enter the cidr range of web subnet",
+            "Type": "String",
+            "Default": "10.10.2.0/24"
+        },
+        "app1az": {
+            "Description": "Select the AZ for app 1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "app2subnetcidr": {
+            "Description": "Enter the cidr range of app2 subnet",
+            "Type": "String",
+            "Default": "10.10.3.0/24"
+        },
+        "app2az": {
+            "Description": "Select the AZ for app2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db1subnetcidr": {
+            "Description": "Enter the cidr range of db 1 subnet",
+            "Type": "String",
+            "Default": "10.10.4.0/24"
+        },
+        "db1az": {
+            "Description": "Select the AZ for db1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db2subnetcidr": {
+            "Description": "Enter the cidr range of db2 subnet",
+            "Type": "String",
+            "Default": "10.10.5.0/24"
+        },
+        "db2az": {
+            "Description": "Select the AZ for db2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
         }
     },
     "Resources": {
@@ -46,7 +91,107 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Web"
+                        "Value": "Web 1"
+                    }
+                ]
+            }
+        },
+        "web2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "web2az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "web2subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Web 2"
+                    }
+                ]
+            }
+        },
+        "app1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "app1az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "app1subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app 1"
+                    }
+                ]
+            }
+        },
+        "app2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "app2az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "app2subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app 2"
+                    }
+                ]
+            }
+        },
+        "db1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "db1az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "db1subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db 1"
+                    }
+                ]
+            }
+        },
+        "db2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "db2az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "db2subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db 2"
                     }
                 ]
             }
