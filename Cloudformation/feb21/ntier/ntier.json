@@ -323,6 +323,85 @@
                     "Ref": "privatert"
                 }
             }
+        },
+        "websecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is security group for web",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web sg"
+                    }
+                ]
+            }
+        },
+        "dbsecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is security group for web",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "3306",
+                        "ToPort": "3306",
+                        "CidrIp": {
+                            "Ref": "vpcrange"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db sg"
+                    }
+                ]
+            }
+        },
+        "appsecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is security group for web",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "8080",
+                        "ToPort": "8080",
+                        "CidrIp": {
+                            "Ref": "vpcrange"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db sg"
+                    }
+                ]
+            }
         }
     }
 }
