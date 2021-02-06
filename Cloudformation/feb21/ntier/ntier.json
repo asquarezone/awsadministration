@@ -68,6 +68,7 @@
                 "CidrBlock": {
                     "Ref": "vpcrange"
                 },
+                "EnableDnsHostnames": "true",
                 "Tags": [
                     {
                         "Key": "Name",
