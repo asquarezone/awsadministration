@@ -245,6 +245,84 @@
                     }
                 ]
             }
+        },
+        "publicroute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "ntierigw"
+                }
+            }
+        },
+        "publicrtwebsubnet1": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                }
+            }
+        },
+        "publicrtwebsubnet2": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                }
+            }
+        },
+        "privaterappsubnet1": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privaterappsubnet2": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privaterdbsubnet1": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privaterdbsubnet2": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
         }
     }
 }
