@@ -398,7 +398,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "db sg"
+                        "Value": "app sg"
                     }
                 ]
             }
