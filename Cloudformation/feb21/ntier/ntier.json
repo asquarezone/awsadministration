@@ -403,6 +403,26 @@
                     }
                 ]
             }
+        },
+        "dbsubnetgroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "These are subnets for database",
+                "SubnetIds": [
+                    {
+                        "Ref": "db1subnet"
+                    },
+                    {
+                        "Ref": "db2subnet"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "mydbsubnetgroup"
+                    }
+                ]
+            }
         }
     }
 }
