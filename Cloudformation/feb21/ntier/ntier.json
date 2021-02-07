@@ -59,6 +59,10 @@
         "db2az": {
             "Description": "Select the AZ for db2 subnet",
             "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "appec2keypair": {
+            "Description": "Key pair for app ec2",
+            "Type": "AWS::EC2::KeyPair::KeyName"
         }
     },
     "Resources": {
@@ -455,6 +459,31 @@
                         "Ref": "dbsecuritygroup"
                     }
                 ]
+            }
+        },
+        "appec2": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "appec2keypair"
+                },
+                "ImageId": "ami-0a4a70bd98c6d6441",
+                "InstanceType": "t2.micro",
+                "Monitoring": "false",
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "appsecuritygroup"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app"
+                    }
+                ],
+                "SubnetId": {
+                    "Ref": "app1subnet"
+                }
             }
         }
     }
