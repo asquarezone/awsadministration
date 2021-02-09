@@ -69,6 +69,22 @@
             "Type": "AWS::EC2::KeyPair::KeyName"
         }
     },
+    "Mappings": {
+        "ubuntumap": {
+            "ap-south-1": {
+                "ubuntu20": "ami-0a4a70bd98c6d6441"
+            },
+            "us-west-2": {
+                "ubuntu20": "ami-07dd19a7900a1f049"
+            },
+            "us-east-1": {
+                "ubuntu20": "ami-0885b1f6bd170450c"
+            },
+            "us-east-2": {
+                "ubuntu20": "ami-0a91cd140a1fc148a"
+            }
+        }
+    },
     "Resources": {
         "ntiervpc": {
             "Type": "AWS::EC2::VPC",
@@ -471,7 +487,15 @@
                 "KeyName": {
                     "Ref": "appec2keypair"
                 },
-                "ImageId": "ami-0a4a70bd98c6d6441",
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "ubuntumap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "ubuntu20"
+                    ]
+                },
                 "InstanceType": "t2.micro",
                 "Monitoring": "false",
                 "SecurityGroupIds": [
@@ -496,7 +520,15 @@
                 "KeyName": {
                     "Ref": "webec2keypair"
                 },
-                "ImageId": "ami-0a4a70bd98c6d6441",
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "ubuntumap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "ubuntu20"
+                    ]
+                },
                 "InstanceType": "t2.micro",
                 "Monitoring": "false",
                 "Tags": [
@@ -510,8 +542,10 @@
                         "Fn::Join": [
                             "",
                             [
-                                "#!/bin/bash -ex",
+                                "#!/bin/bash",
+                                "sleep 60",
                                 "sudo apt update",
+                                "sleep 60",
                                 "sudo apt install apache2 -y"
                             ]
                         ]
