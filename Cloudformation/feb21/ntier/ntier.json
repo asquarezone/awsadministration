@@ -567,5 +567,23 @@
                 ]
             }
         }
+    },
+    "Outputs": {
+        "weburl": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "webec2",
+                    "PublicIp"
+                ]
+            }
+        },
+        "dbendpoint": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "dbinstance",
+                    "Endpoint.Address"
+                ]
+            }
+        }
     }
 }
