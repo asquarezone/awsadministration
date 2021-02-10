@@ -8,6 +8,10 @@
         "az2": {
             "Description": "Select the AZ for web2 db2 and app2 subnet",
             "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "ec2keypairinp": {
+            "Description": "Key pair for web ec2",
+            "Type": "AWS::EC2::KeyPair::KeyName"
         }
     },
     "Resources": {
@@ -35,6 +39,30 @@
                     }
                 },
                 "TemplateURL": "https://cf-templates-uyldnsh0r9uz-ap-south-1.s3.ap-south-1.amazonaws.com/vpc.json",
+                "TimeoutInMinutes": "20"
+            }
+        },
+        "cloudFormationStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "Parameters": {
+                    "ec2keypair": {
+                        "Ref": "ec2keypairinp"
+                    },
+                    "subnetid": {
+                        "Fn::GetAtt": [
+                            "ntiervpcstack",
+                            "Outputs.web1subnetid"
+                        ]
+                    },
+                    "securitygroup": {
+                        "Fn::GetAtt": [
+                            "ntiervpcstack",
+                            "Outputs.websgid"
+                        ]
+                    }
+                },
+                "TemplateURL": "https://cf-templates-uyldnsh0r9uz-ap-south-1.s3.ap-south-1.amazonaws.com/ec2.json",
                 "TimeoutInMinutes": "20"
             }
         }

@@ -1,0 +1,88 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters":{
+        "ec2keypair": {
+            "Description": "Key pair for web ec2",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        
+        "subnetid": {
+            "Type": "String"
+        },
+        "securitygroup":{
+            "Type": "String"
+        }
+        
+    },
+    "Mappings": {
+        "ubuntumap": {
+            "ap-south-1": {
+                "ubuntu20": "ami-0a4a70bd98c6d6441"
+            },
+            "us-west-2": {
+                "ubuntu20": "ami-07dd19a7900a1f049"
+            },
+            "us-east-1": {
+                "ubuntu20": "ami-0885b1f6bd170450c"
+            },
+            "us-east-2": {
+                "ubuntu20": "ami-0a91cd140a1fc148a"
+            }
+        }
+    },
+    "Resources": {
+        "webec2": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "ec2keypair"
+                },
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "ubuntumap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "ubuntu20"
+                    ]
+                },
+                "InstanceType": "t2.micro",
+                "Monitoring": "false",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash\n",
+                                "sleep 60\n",
+                                "sudo apt update\n",
+                                "sleep 60\n",
+                                "sudo apt install apache2 -y\n"
+                            ]
+                        ]
+                    }
+                },
+                "NetworkInterfaces": [
+                    {
+                        "AssociatePublicIpAddress": "true",
+                        "SubnetId": {
+                            "Ref": "subnetid"
+                        },
+                        "GroupSet": [
+                            {
+                                "Ref": "securitygroup"
+                            }
+                        ],
+                        "DeviceIndex": "0"
+                    }
+                ]
+            }
+        }
+    }
+}
