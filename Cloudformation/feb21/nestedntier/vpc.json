@@ -1,0 +1,460 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "vpcrange": {
+            "Description": "Enter the cidr range of vpc",
+            "Type": "String",
+            "Default": "10.10.0.0/16"
+        },
+        "web1subnetcidr": {
+            "Description": "Enter the cidr range of web subnet",
+            "Type": "String",
+            "Default": "10.10.0.0/24"
+        },
+        "web1az": {
+            "Description": "Select the AZ for web1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "web2subnetcidr": {
+            "Description": "Enter the cidr range of web2 subnet",
+            "Type": "String",
+            "Default": "10.10.1.0/24"
+        },
+        "web2az": {
+            "Description": "Select the AZ for web2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "app1subnetcidr": {
+            "Description": "Enter the cidr range of web subnet",
+            "Type": "String",
+            "Default": "10.10.2.0/24"
+        },
+        "app1az": {
+            "Description": "Select the AZ for app 1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "app2subnetcidr": {
+            "Description": "Enter the cidr range of app2 subnet",
+            "Type": "String",
+            "Default": "10.10.3.0/24"
+        },
+        "app2az": {
+            "Description": "Select the AZ for app2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db1subnetcidr": {
+            "Description": "Enter the cidr range of db 1 subnet",
+            "Type": "String",
+            "Default": "10.10.4.0/24"
+        },
+        "db1az": {
+            "Description": "Select the AZ for db1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db2subnetcidr": {
+            "Description": "Enter the cidr range of db2 subnet",
+            "Type": "String",
+            "Default": "10.10.5.0/24"
+        },
+        "db2az": {
+            "Description": "Select the AZ for db2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        }
+    },
+    "Resources": {
+        "ntiervpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "vpcrange"
+                },
+                "EnableDnsHostnames": "true",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "From CF"
+                    }
+                ]
+            }
+        },
+        "web1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "web1az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "web1subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Web 1"
+                    }
+                ]
+            }
+        },
+        "web2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "web2az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "web2subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Web 2"
+                    }
+                ]
+            }
+        },
+        "app1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "app1az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "app1subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app 1"
+                    }
+                ]
+            }
+        },
+        "app2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "app2az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "app2subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app 2"
+                    }
+                ]
+            }
+        },
+        "db1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "db1az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "db1subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db 1"
+                    }
+                ]
+            }
+        },
+        "db2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "db2az"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "db2subnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db 2"
+                    }
+                ]
+            }
+        },
+        "ntierigw": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier igw"
+                    }
+                ]
+            }
+        },
+        "AttachGateway": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "InternetGatewayId": {
+                    "Ref": "ntierigw"
+                }
+            }
+        },
+        "publicrt": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "public rt"
+                    }
+                ]
+            }
+        },
+        "privatert": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "private rt"
+                    }
+                ]
+            }
+        },
+        "publicroute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "ntierigw"
+                }
+            }
+        },
+        "publicrtwebsubnet1": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                }
+            }
+        },
+        "publicrtwebsubnet2": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                }
+            }
+        },
+        "privaterappsubnet1": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privaterappsubnet2": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privaterdbsubnet1": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privaterdbsubnet2": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "websecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is security group for web",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web sg"
+                    }
+                ]
+            }
+        },
+        "dbsecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is security group for web",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "3306",
+                        "ToPort": "3306",
+                        "CidrIp": {
+                            "Ref": "vpcrange"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db sg"
+                    }
+                ]
+            }
+        },
+        "appsecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is security group for web",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "8080",
+                        "ToPort": "8080",
+                        "CidrIp": {
+                            "Ref": "vpcrange"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app sg"
+                    }
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "vpcid": {
+            "Value": {
+                "Ref": "ntiervpc"
+            }
+        },
+        "web1subnetid": {
+            "Value": {
+                "Ref": "web1subnet"
+            }
+        },
+        "web2subnetid": {
+            "Value": {
+                "Ref": "web2subnet"
+            }
+        },
+        "app1subnetid": {
+            "Value": {
+                "Ref": "app1subnet"
+            }
+        },
+        "app2subnetid": {
+            "Value": {
+                "Ref": "app2subnet"
+            }
+        },
+        "db1subnetid": {
+            "Value": {
+                "Ref": "db1subnet"
+            }
+        },
+        "db2subnetid": {
+            "Value": {
+                "Ref": "db2subnet"
+            }
+        },
+        "websgid": {
+            "Value": {
+                "Ref": "websecuritygroup"
+            }
+        },
+        "appsgid": {
+            "Value": {
+                "Ref": "appsecuritygroup"
+            }
+        },
+        "dbsgid": {
+            "Value": {
+                "Ref": "dbsecuritygroup"
+            }
+        }
+    }
+}
