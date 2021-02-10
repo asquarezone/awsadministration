@@ -1,0 +1,52 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "az1": {
+            "Description": "Select the AZ for web1 db1 and app1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "az2": {
+            "Description": "Select the AZ for web2 db2 and app2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        }
+    },
+    "Resources": {
+        "ntiervpcstack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "Parameters": {
+                    "web1az": {
+                        "Ref": "az1"
+                    },
+                    "web2az": {
+                        "Ref": "az2"
+                    },
+                    "db1az": {
+                        "Ref": "az1"
+                    },
+                    "db2az": {
+                        "Ref": "az2"
+                    },
+                    "app1az": {
+                        "Ref": "az1"
+                    },
+                    "app2az": {
+                        "Ref": "az2"
+                    }
+                },
+                "TemplateURL": "https://cf-templates-uyldnsh0r9uz-ap-south-1.s3.ap-south-1.amazonaws.com/vpc.json",
+                "TimeoutInMinutes": "20"
+            }
+        }
+    },
+    "Outputs": {
+        "ntiervpcid": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "ntiervpcstack",
+                    "Outputs.vpcid"
+                ]
+            }
+        }
+    }
+}
