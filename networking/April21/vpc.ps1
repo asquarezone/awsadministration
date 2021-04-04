@@ -1,0 +1,1 @@
+aws ec2 create-vpc --cidr-block '192.168.0.0/16'
