@@ -1,0 +1,27 @@
+{
+    "Version" : "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "rds:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "rds-data:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "rds-db:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": ["s3:Get*","s3:Describe*", "s3:List*"],
+            "Resource": "*"
+        }
+
+
+    ]
+}
