@@ -1,0 +1,26 @@
+{
+    "Version" : "2012-10-17",
+    "id": "allec2ands3forqt",
+    "Statement": [
+        {
+            "Sid": "qtec2fullaccess",
+            "Action": "ec2:*",
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Sid": "qtautoscalingaccess",
+            "Action": "autoscaling:*",
+            "Resource": "*",
+            "Effect": "Allow"
+
+        },
+        {
+            "Sid": "qts3access",
+            "Action": "s3:*",
+            "Resource": "*",
+            "Effect": "Allow"
+
+        }
+    ]
+}
