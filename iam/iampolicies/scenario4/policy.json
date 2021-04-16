@@ -1,0 +1,64 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "ec2:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "elasticloadbalancing:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:ListMetrics",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "autoscaling:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Resource": "arn:aws:ec2:us-west-2:*:instance/i-0483025fca106795c",
+            "Action": [
+                "ec2:AssociateAddress",
+                "ec2:AssociateIamInstanceProfile",
+                "ec2:AttachClassicLinkVpc",
+                "ec2:AttachNetworkInterface",
+                "ec2:AttachVolume",
+                "ec2:BundleInstance",
+                "ec2:ConfirmProductInstance",
+                "ec2:CreateImage",
+                "ec2:CreateInstanceExportTask",
+                "ec2:CreateSnapshots",
+                "ec2:CreateTags",
+                "ec2:DeleteTags",
+                "ec2:DetachNetworkInterface",
+                "ec2:DetachVolume",
+                "ec2:DisassociateAddress",
+                "ec2:DisassociateIamInstanceProfile",
+                "ec2:GetConsoleOutput",
+                "ec2:ModifyInstance*",
+                "ec2:ModifyNetworkInterfaceAttribute",
+                "ec2:MonitorInstances",
+                "ec2:RebootInstances",
+                "ec2:ReplaceIamInstanceProfileAssociation",
+                "ec2:ReportInstanceStatus",
+                "ec2:ResetInstanceAttribute",
+                "ec2:RunInstances",
+                "ec2:StartInstances",
+                "ec2:StopInstances",
+                "ec2:TerminateInstances",
+                
+
+            ]
+        }
+    ]
+}
