@@ -1,0 +1,23 @@
+{
+    "Objects": [
+        {
+            "Key": "contents/content.txt"
+        },
+        {
+            "Key": "contents/one.mp4"
+        },
+        {
+            "Key": "contents/test.jpg"
+        },
+        {
+            "Key": "documents/content.txt"
+        },
+        {
+            "Key": "images/test.jpg"
+        },
+        {
+            "Key": "videos/one.mp4"
+        }
+    ],
+    "Quiet": false
+}
