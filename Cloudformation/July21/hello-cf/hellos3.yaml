@@ -1,0 +1,8 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Exploring cf from yaml
+Resources:
+  mys3bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: qts3fromyaml
