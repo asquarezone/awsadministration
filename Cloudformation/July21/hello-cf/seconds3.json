@@ -1,0 +1,18 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "exploring cloud formation",
+    "Resources": {
+        "mys3bucket1" : {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": "qts3cfjson1"
+            }
+        },
+        "mys3bucket2" : {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": "qts3cfjson2"
+            }
+        }
+    }
+}
