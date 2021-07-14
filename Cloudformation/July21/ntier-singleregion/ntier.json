@@ -30,6 +30,88 @@
                     }
                 ]
             }
+        },
+        "web2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2a",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "10.10.1.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web-2"
+                    }
+                ]
+            }
+        },
+        "app1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2a",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "10.10.2.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app-1"
+                    }
+                ]
+            }
+        },
+        "app2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2a",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "10.10.3.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app-2"
+                    }
+                ]
+            }
+        },
+        "db1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2a",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "10.10.4.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db-1"
+                    }
+                ]
+            }
+        },
+        "db2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2a",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "10.10.5.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db-2"
+                    }
+                ]
+            }
         }
+
+
     }
 }
