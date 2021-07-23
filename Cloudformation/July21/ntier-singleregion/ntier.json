@@ -170,7 +170,7 @@
                 "RuleAction": "allow"
             }
         },
-        "web1naclassociation":  {
+        "web1naclassociation": {
             "Type": "AWS::EC2::SubnetNetworkAclAssociation",
             "Properties": {
                 "NetworkAclId": {
@@ -181,7 +181,7 @@
                 }
             }
         },
-        "web2naclassociation":  {
+        "web2naclassociation": {
             "Type": "AWS::EC2::SubnetNetworkAclAssociation",
             "Properties": {
                 "NetworkAclId": {
@@ -189,6 +189,134 @@
                 },
                 "SubnetId": {
                     "Ref": "web2"
+                }
+            }
+        },
+        "appnacl": {
+            "Description": "appnacl",
+            "Type": "AWS::EC2::NetworkAcl",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "appnacl"
+                    }
+                ]
+            }
+        },
+        "appnaclallexternal": {
+            "Description": "outbound rule for web nacl",
+            "Type": "AWS::EC2::NetworkAclEntry",
+            "Properties": {
+                "CidrBlock": "0.0.0.0/0",
+                "RuleNumber": 100,
+                "NetworkAclId": {
+                    "Ref": "appnacl"
+                },
+                "Protocol": -1,
+                "Egress": true,
+                "RuleAction": "allow"
+            }
+        },
+        "appnaclallowinternal": {
+            "Description": "Inbound rule for web nacl",
+            "Type": "AWS::EC2::NetworkAclEntry",
+            "Properties": {
+                "CidrBlock": "10.10.0.0/16",
+                "RuleNumber": 100,
+                "NetworkAclId": {
+                    "Ref": "appnacl"
+                },
+                "Protocol": -1,
+                "RuleAction": "allow"
+            }
+        },
+        "app2naclassociation": {
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "appnacl"
+                },
+                "SubnetId": {
+                    "Ref": "app2"
+                }
+            }
+        },
+        "app1naclassociation": {
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "appnacl"
+                },
+                "SubnetId": {
+                    "Ref": "app1"
+                }
+            }
+        },
+        "dbnacl": {
+            "Description": "appnacl",
+            "Type": "AWS::EC2::NetworkAcl",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "dbnacl"
+                    }
+                ]
+            }
+        },
+        "dbnaclallexternal": {
+            "Description": "outbound rule for web nacl",
+            "Type": "AWS::EC2::NetworkAclEntry",
+            "Properties": {
+                "CidrBlock": "0.0.0.0/0",
+                "RuleNumber": 100,
+                "NetworkAclId": {
+                    "Ref": "dbnacl"
+                },
+                "Protocol": -1,
+                "Egress": true,
+                "RuleAction": "allow"
+            }
+        },
+        "dbnaclallowinternal": {
+            "Description": "Inbound rule for web nacl",
+            "Type": "AWS::EC2::NetworkAclEntry",
+            "Properties": {
+                "CidrBlock": "10.10.0.0/16",
+                "RuleNumber": 100,
+                "NetworkAclId": {
+                    "Ref": "dbnacl"
+                },
+                "Protocol": -1,
+                "RuleAction": "allow"
+            }
+        },
+        "db2naclassociation": {
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "dbnacl"
+                },
+                "SubnetId": {
+                    "Ref": "db2"
+                }
+            }
+        },
+        "db1naclassociation": {
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "dbnacl"
+                },
+                "SubnetId": {
+                    "Ref": "db1"
                 }
             }
         }
