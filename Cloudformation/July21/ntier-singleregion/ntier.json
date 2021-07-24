@@ -31,7 +31,20 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.0.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        0,
+                        {
+                            "Fn::Cidr": [
+                                {
+                                    "Ref": "vpccidr"
+                                },
+                                6,
+                                8
+                            ]
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -47,7 +60,20 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.1.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        1,
+                        {
+                            "Fn::Cidr": [
+                                {
+                                    "Ref": "vpccidr"
+                                },
+                                6,
+                                8
+                            ]
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -63,7 +89,20 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.2.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        2,
+                        {
+                            "Fn::Cidr": [
+                                {
+                                    "Ref": "vpccidr"
+                                },
+                                6,
+                                8
+                            ]
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -79,7 +118,20 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.3.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        3,
+                        {
+                            "Fn::Cidr": [
+                                {
+                                    "Ref": "vpccidr"
+                                },
+                                6,
+                                8
+                            ]
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -95,7 +147,20 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.4.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        4,
+                        {
+                            "Fn::Cidr": [
+                                {
+                                    "Ref": "vpccidr"
+                                },
+                                6,
+                                8
+                            ]
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -111,7 +176,20 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.5.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        5,
+                        {
+                            "Fn::Cidr": [
+                                {
+                                    "Ref": "vpccidr"
+                                },
+                                6,
+                                8
+                            ]
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
