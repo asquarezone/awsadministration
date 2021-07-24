@@ -6,6 +6,30 @@
             "Description": "This is vpc cidr range",
             "Type": "String",
             "Default": "10.10.0.0/16"
+        },
+        "web1az": {
+            "Description": "AZ of the web1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "web2az": {
+            "Description": "AZ of the web2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "app1az": {
+            "Description": "AZ of the app1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "app2az": {
+            "Description": "AZ of the app2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db1az": {
+            "Description": "AZ of the db1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db2az": {
+            "Description": "AZ of the db2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
         }
     },
     "Resources": {
@@ -27,7 +51,9 @@
         "web1": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2a",
+                "AvailabilityZone": {
+                    "Ref": "web1az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -56,7 +82,9 @@
         "web2": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2a",
+                "AvailabilityZone": {
+                    "Ref": "web2az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -85,7 +113,9 @@
         "app1": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2a",
+                "AvailabilityZone": {
+                    "Ref": "app1az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -114,7 +144,9 @@
         "app2": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2a",
+                "AvailabilityZone": {
+                    "Ref": "app2az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -143,7 +175,9 @@
         "db1": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2a",
+                "AvailabilityZone": {
+                    "Ref": "db1az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -172,7 +206,9 @@
         "db2": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2a",
+                "AvailabilityZone": {
+                    "Ref": "db2az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
