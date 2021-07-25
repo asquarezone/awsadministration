@@ -479,6 +479,58 @@
                     }
                 ]
             }
+        },
+        "openappsg": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This opens 8080 port",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": 
+                        { "Ref": "vpccidr" }
+                        ,
+                        "Description": "Open ssh port",
+                        "FromPort": 8080,
+                        "IpProtocol": "tcp",
+                        "ToPort": 8080
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "open8080"
+                    }
+                ]
+            }
+        },
+        "opendbsg": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This opens 3306 port",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": 
+                        { "Ref": "vpccidr" }
+                        ,
+                        "Description": "Open ssh port",
+                        "FromPort": 3306,
+                        "IpProtocol": "tcp",
+                        "ToPort": 3306
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "openmysql"
+                    }
+                ]
+            }
         }
     }
 }
