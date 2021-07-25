@@ -486,9 +486,9 @@
                 "GroupDescription": "This opens 8080 port",
                 "SecurityGroupIngress": [
                     {
-                        "CidrIp": 
-                        { "Ref": "vpccidr" }
-                        ,
+                        "CidrIp": {
+                            "Ref": "vpccidr"
+                        },
                         "Description": "Open ssh port",
                         "FromPort": 8080,
                         "IpProtocol": "tcp",
@@ -512,9 +512,9 @@
                 "GroupDescription": "This opens 3306 port",
                 "SecurityGroupIngress": [
                     {
-                        "CidrIp": 
-                        { "Ref": "vpccidr" }
-                        ,
+                        "CidrIp": {
+                            "Ref": "vpccidr"
+                        },
                         "Description": "Open ssh port",
                         "FromPort": 3306,
                         "IpProtocol": "tcp",
@@ -528,6 +528,61 @@
                     {
                         "Key": "Name",
                         "Value": "openmysql"
+                    }
+                ]
+            }
+        },
+        "mysqlrdssubnetgroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "subnet group for ntier",
+                "SubnetIds": [
+                    {
+                        "Ref": "db1"
+                    },
+                    {
+                        "Ref": "db2"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "mysql-subnets"
+                    }
+                ]
+            }
+        },
+        "mysqlinstance": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "AllocatedStorage": "20",
+                "DBInstanceClass": "db.t2.micro",
+                "AllowMajorVersionUpgrade": "false",
+                "AutoMinorVersionUpgrade": "false",
+                "BackupRetentionPeriod": 0,
+                "DBInstanceIdentifier": "ltmysqlfromcf",
+                "DBName": "ltnopcommerce",
+                "DBSubnetGroupName": {
+                    "Ref": "mysqlrdssubnetgroup"
+                },
+                "Engine": "mysql",
+                "EngineVersion": "8.0.25",
+                "MasterUsername": "qtdevops",
+                "MasterUserPassword": "qtdevopsqtdevops",
+                "MultiAZ": "false",
+                "Port": "3306",
+                "PubliclyAccessible": "false",
+                "StorageEncrypted": "false",
+                "StorageType": "gp2",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "mysqlrdsfromcf"
+                    }
+                ],
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "opendbsg"
                     }
                 ]
             }
