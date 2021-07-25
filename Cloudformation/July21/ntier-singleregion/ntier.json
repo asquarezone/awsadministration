@@ -448,6 +448,37 @@
                     "Ref": "db1"
                 }
             }
+        },
+        "openhttpssh": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This opens http and ssh port",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "Description": "Open ssh port",
+                        "FromPort": 22,
+                        "IpProtocol": "tcp",
+                        "ToPort": 22
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "Description": "Open ssh port",
+                        "FromPort": 80,
+                        "IpProtocol": "tcp",
+                        "ToPort": 80
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "openhttpssh"
+                    }
+                ]
+            }
         }
     }
 }
