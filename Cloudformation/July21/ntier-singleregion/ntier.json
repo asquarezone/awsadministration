@@ -30,6 +30,34 @@
         "db2az": {
             "Description": "AZ of the db2 subnet",
             "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "webkeypair": {
+            "Description": "Key Pair for web ec2 instnce",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "appkeypair": {
+            "Description": "Key Pair for app ec2 instnce",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "webinstancetype": {
+            "Description": "Instance type of web server",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.small",
+                "t2.large"
+            ]
+        },
+        "appinstancetype": {
+            "Description": "Instance type of app server",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.small",
+                "t2.large"
+            ]
         }
     },
     "Resources": {
@@ -585,6 +613,60 @@
                         "Ref": "opendbsg"
                     }
                 ]
+            }
+        },
+        "web": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "webkeypair"
+                },
+                "ImageId": "ami-090717c950a5c34d3",
+                "InstanceType": {
+                    "Ref": "webinstancetype"
+                },
+                "Monitoring": "false",
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "openhttpssh"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web"
+                    }
+                ],
+                "SubnetId": {
+                    "Ref": "web1"
+                }
+            }
+        },
+        "app": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "appkeypair"
+                },
+                "ImageId": "ami-090717c950a5c34d3",
+                "InstanceType": {
+                    "Ref": "appinstancetype"
+                },
+                "Monitoring": "false",
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "openappsg"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web"
+                    }
+                ],
+                "SubnetId": {
+                    "Ref": "app1"
+                }
             }
         }
     }
