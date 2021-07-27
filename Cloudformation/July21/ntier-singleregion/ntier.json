@@ -754,20 +754,26 @@
                     "Ref": "webinstancetype"
                 },
                 "Monitoring": "false",
-                "SecurityGroupIds": [
-                    {
-                        "Ref": "openhttpssh"
-                    }
-                ],
                 "Tags": [
                     {
                         "Key": "Name",
                         "Value": "web"
                     }
                 ],
-                "SubnetId": {
-                    "Ref": "web1"
-                }
+                "NetworkInterfaces": [
+                    {
+                        "AssociatePublicIpAddress": true,
+                        "DeviceIndex": "0",
+                        "GroupSet": [
+                            {
+                                "Ref": "openhttpssh"
+                            }
+                        ],
+                        "SubnetId": {
+                            "Ref": "web1"
+                        }
+                    }
+                ]
             }
         },
         "app": {
