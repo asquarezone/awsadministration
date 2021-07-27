@@ -284,7 +284,34 @@
                 }
             }
         },
-        
+        "ntierpublicrt": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntierpublicrt"
+                    }
+                ]
+            }
+        },
+        "ntierprivatert": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntierprivatert"
+                    }
+                ]
+            }
+        },
         "webnacl": {
             "Description": "This is web nacl",
             "Type": "AWS::EC2::NetworkAcl",
