@@ -298,6 +298,18 @@
                 ]
             }
         },
+        "publicroute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "ntierpublicrt"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "ntierigw"
+                }
+            }
+        },
         "ntierprivatert": {
             "Type": "AWS::EC2::RouteTable",
             "Properties": {
