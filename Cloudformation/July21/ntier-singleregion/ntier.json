@@ -324,6 +324,72 @@
                 ]
             }
         },
+        "web1rtassocaition": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web1"
+                },
+                "RouteTableId": {
+                    "Ref": "ntierpublicrt"
+                }
+            }
+        },
+        "web2rtassocaition": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web2"
+                },
+                "RouteTableId": {
+                    "Ref": "ntierpublicrt"
+                }
+            }
+        },
+        "app1rtassocaition": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app1"
+                },
+                "RouteTableId": {
+                    "Ref": "ntierprivatert"
+                }
+            }
+        },
+        "app2rtassocaition": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app2"
+                },
+                "RouteTableId": {
+                    "Ref": "ntierprivatert"
+                }
+            }
+        },
+        "db1rtassocaition": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db1"
+                },
+                "RouteTableId": {
+                    "Ref": "ntierprivatert"
+                }
+            }
+        },
+        "db2rtassocaition": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db2"
+                },
+                "RouteTableId": {
+                    "Ref": "ntierprivatert"
+                }
+            }
+        },
         "webnacl": {
             "Description": "This is web nacl",
             "Type": "AWS::EC2::NetworkAcl",
