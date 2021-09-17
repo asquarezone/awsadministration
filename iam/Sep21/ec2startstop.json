@@ -36,7 +36,7 @@
             "Resource": "*",
             "Condition": {
                 "StringEquals": {
-                    "ec2:Region": "us-west-2"
+                    "ec2:Region": "ap-south-1"
                 }
             }
         }
