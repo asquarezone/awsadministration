@@ -11,3 +11,6 @@ aws rds describe-db-instances --db-instance-identifier 'qtrdsfromcli' \
 
 aws rds describe-db-instances --db-instance-identifier 'qtrdsfromcli' \
     --query 'DBInstances[0].Endpoint'
+
+aws rds delete-db-instance --db-instance-identifier 'qtrdsfromcli' \
+    --skip-final-snapshot --delete-automated-backups
