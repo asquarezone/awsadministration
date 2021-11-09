@@ -8,3 +8,6 @@ aws rds describe-db-instances --db-instance-identifier 'qtrdsfromcli'
 
 aws rds describe-db-instances --db-instance-identifier 'qtrdsfromcli' \
     --query 'DBInstances[0].DBInstanceStatus'
+
+aws rds describe-db-instances --db-instance-identifier 'qtrdsfromcli' \
+    --query 'DBInstances[0].Endpoint'
