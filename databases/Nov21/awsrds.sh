@@ -21,3 +21,8 @@ aws rds create-db-instance --db-instance-identifier 'qtrdsfromclimulti' \
     --publicly-accessible --db-name 'qtecommerce'  \
     --db-subnet-group-name 'qtsubnetgroup' --allocated-storage 20 \
     --multi-az --vpc-security-group-ids 'sg-0c8eee8f2fbefd89e'
+
+
+aws rds create-db-instance-read-replica --db-instance-identifier 'qtrdsreplica' \
+    --source-db-instance-identifier 'qtrdsfromclimulti' --publicly-accessible \
+    --source-region 'us-west-2'
