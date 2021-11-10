@@ -27,4 +27,35 @@ aws rds create-db-instance-read-replica --db-instance-identifier 'qtrdsreplica' 
     --source-db-instance-identifier 'qtrdsfromclimulti' --publicly-accessible `
     --source-region 'us-west-2'
 
-    
+# Create db snapshot
+aws rds create-db-snapshot --db-instance-identifier 'qtrdsfromclimulti' `
+    --db-snapshot-identifier 'snapshotfromcli'
+
+# Delete db snapshot
+aws rds delete-db-snapshot --db-snapshot-identifier 'snapshotfromcli'
+
+# Promote read replica
+aws rds promote-read-replica --db-instance-identifier 'qtrdsreplica'
+
+# Delete the db-instance
+aws rds delete-db-instance --db-instance-identifier 'qtrdsreplica'`
+    --skip-final-snapshot --delete-automated-backups
+
+# Create a read replica in different region 
+# ARN: arn:aws:rds:<region>:<account number>:<resourcetype>:<name>
+aws rds create-db-instance-read-replica --db-instance-identifier 'qtrdsreplica' `
+    --source-db-instance-identifier 'arn:aws:rds:us-west-2:678879106782:db:qtrdsfromclimulti' `
+    --publicly-accessible `
+    --source-region 'us-west-2' --region 'ap-south-1'
+
+aws rds delete-db-instance --db-instance-identifier 'qtrdsreplica'`
+    --skip-final-snapshot --delete-automated-backups --region 'ap-south-1'
+
+aws rds delete-db-instance --db-instance-identifier 'qtrdsfromclimulti'`
+    --skip-final-snapshot --delete-automated-backups 
+
+
+
+
+
+
