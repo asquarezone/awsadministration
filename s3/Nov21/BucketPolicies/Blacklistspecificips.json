@@ -1,0 +1,29 @@
+{
+    "Version": "2012-10-17",
+    "Id": "Example2",
+    "Statement": [
+        {
+            "Effect": "Deny",
+            "Action": ["s3:GetObject"],
+            "Resource": "arn:aws:s3:::qts3activity1/2content/*",
+            "Principal": "*",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": [
+                        "183.82.157.106/32",
+                        "49.37.153.132/32",
+                        "69.138.173.102/32",
+                        "49.37.159.83/32",
+                        "24.24.185.155/32"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": ["s3:GetObject"],
+            "Resource": "arn:aws:s3:::qts3activity1/2content/*",
+            "Principal": "*"
+        }
+    ]
+}

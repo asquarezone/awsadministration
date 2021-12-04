@@ -1,0 +1,15 @@
+{
+    "Version": "2012-10-17",
+    "Id": "Example1",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": ["s3:PutObject"],
+            "Resource": "arn:aws:s3:::qts3activity1/3content/*",
+            "Principal": {
+                "AWS": ["arn:aws:iam::912868338977:root", "arn:aws:iam::323168868272:root"]
+            }
+            
+        }
+    ]
+}
