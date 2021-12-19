@@ -1,0 +1,14 @@
+{
+    "Role": "arn:aws:iam::*:role/rolefors3replication",
+    "Rules": [
+        {
+            "Status": "Enabled",
+            "Priority": 1,
+            "DeleteMarkerReplication": { "Status": "Disabled" },
+            "Filter" : { "Prefix": ""},
+            "Destination": {
+                "Bucket": "arn:aws:s3:::qts3bucketfromclireplica"
+            }
+        }
+    ]
+}
