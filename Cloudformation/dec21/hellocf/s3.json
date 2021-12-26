@@ -1,0 +1,10 @@
+{
+    "Resources" : {
+        "mys3bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": "qts3fromcf"
+            }
+        }
+    }
+}
