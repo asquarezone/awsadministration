@@ -15,6 +15,7 @@
                 "CidrBlock": {
                     "Ref": "vpccidr"
                 },
+                "EnableDnsHostnames": true,
                 "Tags": [
                     {
                         "Key": "Name",
