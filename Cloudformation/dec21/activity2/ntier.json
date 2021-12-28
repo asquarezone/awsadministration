@@ -1,11 +1,20 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "This is template for activity 2",
+    "Parameters": {
+        "vpc_cidr": {
+            "Description": "This is cidr for vpc",
+            "Type": "String",
+            "Default": "192.168.0.0/16"
+        }
+    },
     "Resources": {
         "ntiervpc": {
             "Type": "AWS::EC2::VPC",
             "Properties": {
-                "CidrBlock": "192.168.0.0/16",
+                "CidrBlock": {
+                    "Ref": "vpc_cidr"
+                },
                 "Tags": [
                     {
                         "Key": "Name",
