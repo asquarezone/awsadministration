@@ -23,6 +23,70 @@
                     }
                 ]
             }
+        },
+        "web1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2a",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "192.168.0.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Web1"
+                    }
+                ]
+            }
+        },
+        "web2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2b",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "192.168.1.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Web2"
+                    }
+                ]
+            }
+        },
+        "db1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2c",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "192.168.2.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Db1"
+                    }
+                ]
+            }
+        },
+        "db2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2a",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "192.168.3.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Db2"
+                    }
+                ]
+            }
         }
     }
 }
