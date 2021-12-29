@@ -6,6 +6,11 @@
             "Description": "This is cidr for vpc",
             "Type": "String",
             "Default": "192.168.0.0/16"
+        },
+        "subnetcidrranges": {
+            "Description": "Cidr ranges for subnet",
+            "Type": "List<String>",
+            "Default": "192.168.0.0/24,192.168.1.0/24,192.168.2.0/24,192.168.3.0/24"
         }
     },
     "Resources": {
@@ -31,7 +36,14 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "192.168.0.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        0,
+                        {
+                            "Ref": "subnetcidrranges"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -47,7 +59,14 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "192.168.1.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        1,
+                        {
+                            "Ref": "subnetcidrranges"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -63,7 +82,14 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "192.168.2.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        2,
+                        {
+                            "Ref": "subnetcidrranges"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -79,7 +105,14 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "192.168.3.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        3,
+                        {
+                            "Ref": "subnetcidrranges"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
