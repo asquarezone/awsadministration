@@ -11,6 +11,22 @@
             "Description": "Cidr ranges for subnet",
             "Type": "List<String>",
             "Default": "192.168.0.0/24,192.168.1.0/24,192.168.2.0/24,192.168.3.0/24"
+        },
+        "web1Az": {
+            "Description": "AZ of the Web1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "web2Az": {
+            "Description": "AZ of the Web2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db1Az": {
+            "Description": "AZ of the db1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db2Az": {
+            "Description": "AZ of the db2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
         }
     },
     "Resources": {
@@ -32,7 +48,9 @@
         "web1": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2a",
+                "AvailabilityZone": {
+                    "Ref": "web1Az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -55,7 +73,9 @@
         "web2": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2b",
+                "AvailabilityZone": {
+                    "Ref": "web2Az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -78,7 +98,9 @@
         "db1": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2c",
+                "AvailabilityZone": {
+                    "Ref": "db1Az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -101,7 +123,9 @@
         "db2": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "us-west-2a",
+                "AvailabilityZone": {
+                    "Ref": "db2Az"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
