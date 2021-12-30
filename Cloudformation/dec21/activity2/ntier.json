@@ -285,6 +285,31 @@
                     }
                 ]
             }
+        },
+        "mysqlsg": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "-",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "3306",
+                        "ToPort": "3306",
+                        "CidrIp": {
+                            "Ref": "vpccidr"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "mysqlsg"
+                    }
+                ]
+            }
         }
     }
 }
