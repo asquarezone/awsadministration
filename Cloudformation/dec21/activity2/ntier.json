@@ -310,6 +310,26 @@
                     }
                 ]
             }
+        },
+        "ntierdbsubnetgroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "DBsubnet group for db",
+                "SubnetIds": [
+                    {
+                        "Ref": "db1"
+                    },
+                    {
+                        "Ref": "db2"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntierdbsubnetgroup"
+                    }
+                ]
+            }
         }
     }
 }
