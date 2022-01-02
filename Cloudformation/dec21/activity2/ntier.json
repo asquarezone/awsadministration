@@ -82,6 +82,25 @@
             "Default": "t2.micro"
         }
     },
+    "Mappings": {
+        "imageIdMap": {
+            "us-east-1": {
+                "ubuntu20": "ami-04505e74c0741db8d"
+            },
+            "us-east-2": {
+                "ubuntu20": "ami-0fb653ca2d3203ac1"
+            },
+            "us-west-1": {
+                "ubuntu20": "ami-01f87c43e618bf8f0"
+            },
+            "us-west-2": {
+                "ubuntu20": "ami-0892d3c7ee96c0bf7"
+            },
+            "ap-south-1": {
+                "ubuntu20": "ami-0851b76e8b1bce90b"
+            }
+        }
+    },
     "Resources": {
         "ntiervpc": {
             "Type": "AWS::EC2::VPC",
@@ -435,8 +454,15 @@
                 "KeyName": {
                     "Ref": "keypair"
                 },
-                
-                "ImageId": "ami-0892d3c7ee96c0bf7", //ubuntu 20 instance
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "imageIdMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "ubuntu20"
+                    ]
+                },
                 "InstanceType": {
                     "Ref": "webInstanceType"
                 },
