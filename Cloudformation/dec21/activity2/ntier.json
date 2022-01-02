@@ -27,6 +27,59 @@
         "db2Az": {
             "Description": "AZ of the db2 subnet",
             "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "dbSize": {
+            "Description": "Size of the database",
+            "Type": "String",
+            "Default": "20"
+        },
+        "dbInstanceSize": {
+            "Description": "Size of the Datbase Instance",
+            "Type": "String",
+            "Default": "db.t2.micro"
+        },
+        "backupPeriodInDays": {
+            "Description": "Backup Period in Days",
+            "Type": "Number",
+            "Default": 0
+        },
+        "dbServerName": {
+            "Description": "Name of the rds instance",
+            "Type": "String",
+            "Default": "qtcommerce"
+        },
+        "dbName": {
+            "Description": "Name of the rds database",
+            "Type": "String",
+            "Default": "qtecomm"
+        },
+        "dbUserName": {
+            "Description": "UserName of the database",
+            "Type": "String",
+            "Default": "admin"
+        },
+        "dbPassword": {
+            "Description": "Password for the database",
+            "Type": "String",
+            "Default": "adminadmin"
+        },
+        "isMultiAz": {
+            "Description": "Whether you need multi az or not",
+            "Type": "String",
+            "Default": "false",
+            "AllowedValues": [
+                "true",
+                "false"
+            ]
+        },
+        "keypair": {
+            "Description": "key pair for ec2 instance",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "webInstanceType": {
+            "Description": "instance type for the web ec2",
+            "Type": "String",
+            "Default": "t2.micro"
         }
     },
     "Resources": {
@@ -334,20 +387,34 @@
         "mysqlinstance": {
             "Type": "AWS::RDS::DBInstance",
             "Properties": {
-                "AllocatedStorage": "20",
-                "DBInstanceClass": "db.t2.micro",
+                "AllocatedStorage": {
+                    "Ref": "dbSize"
+                },
+                "DBInstanceClass": {
+                    "Ref": "dbInstanceSize"
+                },
                 "AllowMajorVersionUpgrade": "false",
                 "AutoMinorVersionUpgrade": "false",
-                "BackupRetentionPeriod": "0",
-                "DBInstanceIdentifier": "qtcommerce",
+                "BackupRetentionPeriod": {
+                    "Ref": "backupPeriodInDays"
+                },
+                "DBInstanceIdentifier": {
+                    "Ref": "dbServerName"
+                },
                 "DBName": "qtecomm",
                 "DBSubnetGroupName": {
                     "Ref": "ntierdbsubnetgroup"
                 },
                 "Engine": "mysql",
-                "MasterUsername": "admin",
-                "MasterUserPassword": "adminadmin",
-                "MultiAZ": "false",
+                "MasterUsername": {
+                    "Ref": "dbUserName"
+                },
+                "MasterUserPassword": {
+                    "Ref": "dbPassword"
+                },
+                "MultiAZ": {
+                    "Ref": "isMultiAz"
+                },
                 "PubliclyAccessible": "false",
                 "Tags": [
                     {
@@ -365,9 +432,14 @@
         "web1ec2": {
             "Type": "AWS::EC2::Instance",
             "Properties": {
-                "KeyName": "fortf",
-                "ImageId": "ami-0892d3c7ee96c0bf7",
-                "InstanceType": "t2.micro",
+                "KeyName": {
+                    "Ref": "keypair"
+                },
+                
+                "ImageId": "ami-0892d3c7ee96c0bf7", //ubuntu 20 instance
+                "InstanceType": {
+                    "Ref": "webInstanceType"
+                },
                 "Monitoring": "false",
                 "NetworkInterfaces": [
                     {
