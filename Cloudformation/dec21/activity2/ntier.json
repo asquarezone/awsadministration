@@ -490,5 +490,33 @@
                 ]
             }
         }
+    },
+    "Outputs": {
+        "vpcId": {
+            "Value": {
+                "Ref": "ntiervpc"
+            }
+        },
+        "web1InstanceId": {
+            "Value": {
+                "Ref": "web1ec2"
+            }
+        },
+        "webPublicIp": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "web1ec2",
+                    "PublicIp"
+                ]
+            }
+        },
+        "dbEndPoint": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "mysqlinstance",
+                    "Endpoint.Address"
+                ]
+            }
+        }
     }
 }
