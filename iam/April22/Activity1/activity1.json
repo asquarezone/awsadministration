@@ -7,6 +7,17 @@
                 "s3:*" 
             ],     
 			"Resource": "*"
+		},
+        {
+			"Effect": "Allow", 
+			"Action":  [
+                "ec2:*" ,
+                "autoscaling:*",
+                "imagebuilder:*",
+                "ec2-instance-connect:*"
+
+            ],     
+			"Resource": "*"
 		}
 	]
 }
