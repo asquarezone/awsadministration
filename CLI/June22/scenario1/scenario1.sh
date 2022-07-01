@@ -23,3 +23,18 @@ igw_id=$(aws ec2 create-internet-gateway --tag-specifications "ResourceType=inte
 aws ec2 attach-internet-gateway --vpc-id $vpc_id --internet-gateway-id $igw_id
 echo "Created internet gateway with id $igw_id and attached to vpc"
 
+public_rt_id=$(aws ec2 create-route-table --vpc-id $vpc_id --tag-specifications "ResourceType=route-table,Tags=[{Key=Name,Value=public}]" --query "RouteTable.RouteTableId" --output "text")
+
+aws ec2 create-route --destination-cidr-block "0.0.0.0/0" --route-table-id $public_rt_id --gateway-id $igw_id
+
+echo "Created public route table with id $public_rt_id"
+
+web1_subnet_cidr=$az_a_subnets_cidrs[0]
+web1_subnet_id=$(aws ec2 describe-subnets --query "Subnets[?CidrBlock=='$web1_subnet_cidr' && VpcId=='$vpc_id'].SubnetId|[0]" --output text)
+
+web2_subnet_cidr=$az_b_subnets_cidrs[0]
+web2_subnet_id=$(aws ec2 describe-subnets --query "Subnets[?CidrBlock=='$web2_subnet_cidr' && VpcId=='$vpc_id'].SubnetId|[0]" --output text)
+
+aws ec2 associate-route-table --route-table-id $public_rt_id --subnet-id $web1_subnet_id
+aws ec2 associate-route-table --route-table-id $public_rt_id --subnet-id $web2_subnet_id
+
