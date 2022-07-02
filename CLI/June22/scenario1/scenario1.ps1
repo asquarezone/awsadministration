@@ -80,3 +80,49 @@ aws rds create-db-instance `
     --vpc-security-group-ids $dbsg_id
 
 
+
+# web security group
+
+$websg_id = aws ec2 create-security-group `
+    --group-name "ntierwebsg" `
+    --description "ntier websg" `
+    --vpc-id $vpc_id `
+    --query "GroupId" `
+    --output "text"
+
+$ports=@(22,80,443)
+for ($index = 0; $index -lt $ports.Count; $index++) {
+    aws ec2 authorize-security-group-ingress `
+        --group-id $websg_id `
+        --protocol tcp `
+        --port $ports[$index] `
+        --cidr "0.0.0.0/0"
+}
+
+# AMI Id of ubuntu 22
+$ami_id=aws ec2 describe-images --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20220609" --query "Images[0].ImageId" --output "text"
+
+$keyname='docker'
+# run the ec2 instance
+
+$web_ec2_id=aws ec2 run-instances `
+    --image-id $ami_id `
+    --security-group-ids $websg_id `
+    --associate-public-ip-address `
+    --subnet-id $web1_subnet_id `
+    --instance-type t2.micro `
+    --key-name $keyname `
+    --query "Instances[0].InstanceId" `
+    --output 'text'
+
+Write-Host "Ec2 instance created with id $web_ec2_id"
+$username="ubuntu"
+$public_ip=aws ec2 describe-instances `
+    --instance-ids $web_ec2_id `
+    --query "Reservations[].Instances[].PublicIpAddress|[0]" `
+    --output "text"
+Write-Host "Connect to the ec2 instance using ssh -i $keyname.pem $username@$public_ip"
+
+
+
+
