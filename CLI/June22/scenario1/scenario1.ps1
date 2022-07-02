@@ -36,3 +36,47 @@ $web2_subnet_id= aws ec2 describe-subnets --query "Subnets[?CidrBlock=='$web2_su
 
 aws ec2 associate-route-table --route-table-id $public_rt_id --subnet-id $web1_subnet_id
 aws ec2 associate-route-table --route-table-id $public_rt_id --subnet-id $web2_subnet_id
+
+
+# We need to fetch db1 subnet id
+$db1_subnet_cidr=$az_a_subnets_cidrs[2]
+$db1_subnet_id= aws ec2 describe-subnets --query "Subnets[?CidrBlock=='$db1_subnet_cidr' && VpcId=='$vpc_id'].SubnetId|[0]" --output text
+Write-Host "Found db1 subnet with id $db1_subnet_id"
+
+# We need to fetch db2 subnet id
+$db2_subnet_cidr=$az_b_subnets_cidrs[2]
+$db2_subnet_id= aws ec2 describe-subnets --query "Subnets[?CidrBlock=='$db2_subnet_cidr' && VpcId=='$vpc_id'].SubnetId|[0]" --output text
+Write-Host "Found db2 subnet with id $db2_subnet_id"
+
+# db subnet group
+aws rds create-db-subnet-group `
+    --db-subnet-group-name "nterdbsubnet" `
+    --db-subnet-group-description "ntier DB subnet group" `
+    --subnet-ids $db1_subnet_id $db2_subnet_id
+
+# db security group
+
+$dbsg_id = aws ec2 create-security-group `
+    --group-name "dbsg" `
+    --description "My db Security group" `
+    --vpc-id $vpc_id `
+    --query "GroupId" `
+    --output "text"
+
+aws ec2 authorize-security-group-ingress `
+    --group-id $dbsg_id `
+    --protocol tcp `
+    --port 3306 `
+    --cidr $vpc_cidr
+
+aws rds create-db-instance `
+    --db-instance-identifier "ntier-qt-cli-instance" `
+    --db-instance-class "db.t2.micro" `
+    --engine "mysql" `
+    --master-username "root" `
+    --master-user-password "rootroot" `
+    --allocated-storage 20 `
+    --db-subnet-group-name "nterdbsubnet" `
+    --vpc-security-group-ids $dbsg_id
+
+
