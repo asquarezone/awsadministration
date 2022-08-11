@@ -59,6 +59,49 @@ aws ec2 associate-route-table `
 #  "AssociationId": "rtbassoc-0a457385cd0e6998a"
 
 
+aws ec2 create-security-group `
+    --description  "web subnet security group" `
+    --group-name "websg" `
+    --vpc-id "vpc-055037a4a184bf027" `
+    --tag-specifications "ResourceType=security-group,Tags=[{Key=Name,Value=websg}]"
+# "sg-0219452a6ea21df4e"
+
+
+aws ec2 authorize-security-group-ingress `
+    --group-id "sg-0219452a6ea21df4e" `
+    --protocol "tcp" `
+    --port 22 `
+    --cidr "0.0.0.0/0"
+
+aws ec2 authorize-security-group-ingress `
+    --group-id "sg-0219452a6ea21df4e" `
+    --protocol "tcp" `
+    --port 80 `
+    --cidr "0.0.0.0/0"
+
+aws ec2 authorize-security-group-ingress `
+    --group-id "sg-0219452a6ea21df4e" `
+    --protocol "tcp" `
+    --port 443 `
+    --cidr "0.0.0.0/0"
+
+
+aws ec2 create-security-group `
+    --description  "web subnet security group" `
+    --group-name "dbsg" `
+    --vpc-id "vpc-055037a4a184bf027" `
+    --tag-specifications "ResourceType=security-group,Tags=[{Key=Name,Value=privatesg}]"
+#sg-056809f4f5fb53523
+
+aws ec2 authorize-security-group-ingress `
+    --group-id "sg-056809f4f5fb53523" `
+    --protocol "all" `
+    --port 0-65535 `
+    --cidr "192.168.0.0/23"
+
+
+
+
 
 
 
