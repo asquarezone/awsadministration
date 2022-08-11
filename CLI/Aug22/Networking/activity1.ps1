@@ -47,5 +47,21 @@ aws ec2 create-route `
     --route-table-id "rtb-0950d0a7fa27a94dc"
 
 
+aws ec2 create-route-table `
+    --tag-specifications "ResourceType=route-table,Tags=[{Key=Name,Value=privatert}]" `
+    --vpc-id "vpc-055037a4a184bf027"
+# rtb-09865cd28840b608b
+
+
+aws ec2 associate-route-table `
+    --route-table-id "rtb-09865cd28840b608b" `
+    --subnet-id "subnet-0df51903226e72ebe" `
+#  "AssociationId": "rtbassoc-0a457385cd0e6998a"
+
+
+
+
+
+
 
 
