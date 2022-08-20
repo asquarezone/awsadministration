@@ -1,0 +1,216 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: This is activity 1 to create vpc
+Parameters:
+  zone1:
+    Description: select zone 1
+    Type: AWS::EC2::AvailabilityZone::Name
+  zone2:
+    Description: select zone 2
+    Type: AWS::EC2::AvailabilityZone::Name
+  vpccidr:
+    Description: cidr of the vpc
+    Type: String
+    Default: 192.168.0.0/16
+  subnet1cidr:
+    Description: cidr of subnet1
+    Type: String
+    Default: 192.168.0.0/24
+  subnet2cidr:
+    Description: cidr of subnet2
+    Type: String
+    Default: 192.168.1.0/24
+  subnet3cidr:
+    Description: cidr of subnet3
+    Type: String
+    Default: 192.168.2.0/24
+  subnet4cidr:
+    Description: cidr of subnet4
+    Type: String
+    Default: 192.168.3.0/24
+  keypair:
+    Description: key pair for ec2
+    Type: AWS::EC2::KeyPair::KeyName
+  amiid:
+    Description: ami of the linux instance
+    Type: String
+    Default: ami-085284d24fe829cd0
+Resources:
+  ntiervpc:
+    Description: This is ntier vpc
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock:
+        Ref: vpccidr
+      EnableDnsHostnames: true
+      Tags:
+      - Key: Name
+        Value: ntier
+  subnet1:
+    Description: this is subnet1
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock:
+        Ref: subnet1cidr
+      AvailabilityZone:
+        Ref: zone1
+      Tags:
+      - Key: Name
+        Value: subnet1
+      VpcId:
+        Ref: ntiervpc
+  subnet2:
+    Description: this is subnet2
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock:
+        Ref: subnet2cidr
+      AvailabilityZone:
+        Ref: zone2
+      Tags:
+      - Key: Name
+        Value: subnet2
+      VpcId:
+        Ref: ntiervpc
+  subnet3:
+    Description: this is subnet3
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock:
+        Ref: subnet3cidr
+      AvailabilityZone:
+        Ref: zone1
+      Tags:
+      - Key: Name
+        Value: subnet3
+      VpcId:
+        Ref: ntiervpc
+  subnet4:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Ref: zone2
+      VpcId:
+        Ref: ntiervpc
+      CidrBlock:
+        Ref: subnet4cidr
+      Tags:
+      - Key: Name
+        Value: subnet4
+  ntierigw:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value: ntier igw
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: ntiervpc
+      InternetGatewayId:
+        Ref: ntierigw
+  publicrt:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: ntiervpc
+      Tags:
+      - Key: Name
+        Value: public rt
+  publicroute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: publicrt
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: ntierigw
+  privatert:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: ntiervpc
+      Tags:
+      - Key: Name
+        Value: private rt
+  subnet1rt:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: publicrt
+      SubnetId:
+        Ref: subnet1
+  subnet2rt:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: publicrt
+      SubnetId:
+        Ref: subnet2
+  subnet3rt:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: privatert
+      SubnetId:
+        Ref: subnet3
+  subnet4rt:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: privatert
+      SubnetId:
+        Ref: subnet4
+  websg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: web sg
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      VpcId:
+        Ref: ntiervpc
+      Tags:
+      - Key: Name
+        Value: websg
+  webec2:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName:
+        Ref: keypair
+      ImageId:
+        Ref: amiid
+      InstanceType: t2.micro
+      Tags:
+      - Key: Name
+        Value: ec2
+      NetworkInterfaces:
+      - AssociatePublicIpAddress: true
+        SubnetId:
+          Ref: subnet1
+        DeviceIndex: 0
+        GroupSet:
+        - Ref: websg
+      UserData:
+        Fn::Base64:
+          Fn::Join:
+          - ''
+          - - "#!/bin/bash"
+            - sudo apt update
+            - sudo apt install apache2 -y
+Outputs:
+  weburl:
+    Value:
+      Fn::Join:
+      - "//"
+      - - 'http:'
+        - Fn::GetAtt:
+          - webec2
+          - PublicIp
