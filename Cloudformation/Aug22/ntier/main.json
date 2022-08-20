@@ -14,6 +14,73 @@
                     }
                 ]
             }
+        },
+        "subnet1": {
+            "Description": "this is subnet1",
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.0.0/24",
+                "AvailabilityZone": "us-west-2a",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "subnet1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                }
+            }
+        },
+        "subnet2": {
+            "Description": "this is subnet2",
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.1.0/24",
+                "AvailabilityZone": "us-west-2b",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "subnet2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                }
+            }
+        },
+        "subnet3": {
+            "Description": "this is subnet3",
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.2.0/24",
+                "AvailabilityZone": "us-west-2a",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "subnet3"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                }
+            }
+        },
+        "subnet4": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2b",
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": "192.168.3.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "subnet4"
+                    }
+                ]
+            }
         }
     }
 }
