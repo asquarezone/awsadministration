@@ -9,6 +9,31 @@
         "zone2": {
             "Description": "select zone 2",
             "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "vpccidr": {
+            "Description": "cidr of the vpc",
+            "Type": "String",
+            "Default": "192.168.0.0/16"
+        },
+        "subnet1cidr": {
+            "Description": "cidr of subnet1",
+            "Type": "String",
+            "Default": "192.168.0.0/24"
+        },
+        "subnet2cidr": {
+            "Description": "cidr of subnet2",
+            "Type": "String",
+            "Default": "192.168.1.0/24"
+        },
+        "subnet3cidr": {
+            "Description": "cidr of subnet3",
+            "Type": "String",
+            "Default": "192.168.2.0/24"
+        },
+        "subnet4cidr": {
+            "Description": "cidr of subnet4",
+            "Type": "String",
+            "Default": "192.168.3.0/24"
         }
     },
     "Resources": {
@@ -16,7 +41,9 @@
             "Description": "This is ntier vpc",
             "Type": "AWS::EC2::VPC",
             "Properties": {
-                "CidrBlock": "192.168.0.0/16",
+                "CidrBlock": {
+                    "Ref": "vpccidr"
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -29,7 +56,9 @@
             "Description": "this is subnet1",
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.0.0/24",
+                "CidrBlock": {
+                    "Ref": "subnet1cidr"
+                },
                 "AvailabilityZone": {
                     "Ref": "zone1"
                 },
@@ -48,7 +77,9 @@
             "Description": "this is subnet2",
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.1.0/24",
+                "CidrBlock": {
+                    "Ref": "subnet2cidr"
+                },
                 "AvailabilityZone": {
                     "Ref": "zone2"
                 },
@@ -67,7 +98,9 @@
             "Description": "this is subnet3",
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.2.0/24",
+                "CidrBlock": {
+                    "Ref": "subnet3cidr"
+                },
                 "AvailabilityZone": {
                     "Ref": "zone1"
                 },
@@ -91,7 +124,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "192.168.3.0/24",
+                "CidrBlock": {
+                    "Ref": "subnet4cidr"
+                },
                 "Tags": [
                     {
                         "Key": "Name",
