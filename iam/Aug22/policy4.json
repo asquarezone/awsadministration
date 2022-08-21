@@ -1,0 +1,10 @@
+{
+    "Version" : "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": ["ec2:Describe*", "ec2:Get*", "ec2:List*", "ec2:Search*", "ec2:StartInstances", "ec2:StopInstances", "elasticloadbalancing:Describe*", "cloudwatch:Describe*"],
+            "Resource": "*"
+        }
+    ]
+}
