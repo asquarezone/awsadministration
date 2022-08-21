@@ -1,0 +1,17 @@
+{
+    "Version" : "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                    "s3:CreateBucket", 
+                    "s3:Describe*", 
+                    "s3:Get*", 
+                    "s3:List*",
+                    "s3:PutBucketOwnershipControls",
+                    "s3:PutBucketPublicAccessBlock"
+                ],
+            "Resource": "*"
+        }
+    ]
+}
