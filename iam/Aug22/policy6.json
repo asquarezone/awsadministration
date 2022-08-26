@@ -1,0 +1,49 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "ec2:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "elasticloadbalancing:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:ListMetrics",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "autoscaling:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:List*",
+                "s3-object-lambda:Get*",
+                "s3-object-lambda:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": ["ec2:StartInstances", "ec2:StopInstances"],
+            "Resource": "arn:aws:ec2:us-east-1:678879106782:instance/i-080e502e912b3b694"
+        },
+        {
+            "Effect": "Allow",
+            "Action": ["s3:PutObject", "s3:PutObjectAcl", "s3:PutObjectRetention", "s3:PutObjectTagging", "s3:PutObjectVersionAcl", "s3:PutObjectVersionTagging", "s3:"],
+            "Resource": ["arn:aws:s3:::qt26june", "arn:aws:s3:::qt26june/*" ]
+        }
+    ]
+}
