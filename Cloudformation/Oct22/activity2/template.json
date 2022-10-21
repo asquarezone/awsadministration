@@ -1,0 +1,116 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Create a vpc with 6 subnets",
+    "Resources": {
+        "ntiervpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "192.168.0.0/16",
+                "EnableDnsHostnames": true,
+                "EnableDnsSupport": true,
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier"
+                    }
+                ]
+            }
+        },
+        "web1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.0.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": "us-west-2a"
+            }
+        },
+        "web2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.1.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": "us-west-2b"
+            }
+        },
+        "app1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.2.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": "us-west-2a"
+            }
+        },
+        "app2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.3.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": "us-west-2b"
+            }
+        },
+        "db1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.4.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": "us-west-2a"
+            }
+        },
+        "db2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "192.168.5.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": "us-west-2b"
+            }
+        }
+    }
+}
