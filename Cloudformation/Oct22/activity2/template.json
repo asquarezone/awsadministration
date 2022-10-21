@@ -11,7 +11,14 @@
             "Description": "This is cidr ranges of subnets",
             "Type": "CommaDelimitedList",
             "Default": "192.168.0.0/24,192.168.1.0/24,192.168.2.0/24,192.168.3.0/24,192.168.4.0/24,192.168.5.0/24"
-            
+        },
+        "zone1": {
+            "Description": "This is zone 1 for 3 subnets",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "zone2": {
+            "Description": "This is zone 2 for 3 subnets",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
         }
     },
     "Resources": {
@@ -51,7 +58,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "AvailabilityZone": "us-west-2a"
+                "AvailabilityZone": {
+                    "Ref": "zone1"
+                }
             }
         },
         "web2subnet": {
@@ -74,7 +83,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "AvailabilityZone": "us-west-2b"
+                "AvailabilityZone": {
+                    "Ref": "zone2"
+                }
             }
         },
         "app1subnet": {
@@ -97,7 +108,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "AvailabilityZone": "us-west-2a"
+                "AvailabilityZone": {
+                    "Ref": "zone1"
+                }
             }
         },
         "app2subnet": {
@@ -120,7 +133,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "AvailabilityZone": "us-west-2b"
+                "AvailabilityZone": {
+                    "Ref": "zone2"
+                }
             }
         },
         "db1subnet": {
@@ -143,7 +158,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "AvailabilityZone": "us-west-2a"
+                "AvailabilityZone": {
+                    "Ref": "zone1"
+                }
             }
         },
         "db2subnet": {
@@ -166,7 +183,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "AvailabilityZone": "us-west-2b"
+                "AvailabilityZone": {
+                    "Ref": "zone2"
+                }
             }
         }
     }
