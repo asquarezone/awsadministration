@@ -1,11 +1,26 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Create a vpc with 6 subnets",
+    "Parameters": {
+        "vpccidr": {
+            "Description": "This is cidr range of vpc",
+            "Type": "String",
+            "Default": "192.168.0.0/16"
+        },
+        "subnetcidrs": {
+            "Description": "This is cidr ranges of subnets",
+            "Type": "CommaDelimitedList",
+            "Default": "192.168.0.0/24,192.168.1.0/24,192.168.2.0/24,192.168.3.0/24,192.168.4.0/24,192.168.5.0/24"
+            
+        }
+    },
     "Resources": {
         "ntiervpc": {
             "Type": "AWS::EC2::VPC",
             "Properties": {
-                "CidrBlock": "192.168.0.0/16",
+                "CidrBlock": {
+                    "Ref": "vpccidr"
+                },
                 "EnableDnsHostnames": true,
                 "EnableDnsSupport": true,
                 "Tags": [
@@ -19,7 +34,14 @@
         "web1subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.0.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        0,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -35,7 +57,14 @@
         "web2subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.1.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        1,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -51,7 +80,14 @@
         "app1subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.2.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        2,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -67,7 +103,14 @@
         "app2subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.3.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        3,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -83,7 +126,14 @@
         "db1subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.4.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        4,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -99,7 +149,14 @@
         "db2subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "CidrBlock": "192.168.5.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        5,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
