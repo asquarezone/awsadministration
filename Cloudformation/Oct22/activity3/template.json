@@ -1,0 +1,285 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Create a vpc with 6 subnets",
+    "Parameters": {
+        "vpccidr": {
+            "Description": "This is cidr range of vpc",
+            "Type": "String",
+            "Default": "192.168.0.0/16"
+        },
+        "subnetcidrs": {
+            "Description": "This is cidr ranges of subnets",
+            "Type": "CommaDelimitedList",
+            "Default": "192.168.0.0/24,192.168.1.0/24,192.168.2.0/24,192.168.3.0/24,192.168.4.0/24,192.168.5.0/24"
+        },
+        "zone1": {
+            "Description": "This is zone 1 for 3 subnets",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "zone2": {
+            "Description": "This is zone 2 for 3 subnets",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        }
+    },
+    "Resources": {
+        "ntiervpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "vpccidr"
+                },
+                "EnableDnsHostnames": true,
+                "EnableDnsSupport": true,
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier"
+                    }
+                ]
+            }
+        },
+        "web1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": {
+                    "Fn::Select": [
+                        0,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": {
+                    "Ref": "zone1"
+                }
+            }
+        },
+        "web2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": {
+                    "Fn::Select": [
+                        1,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": {
+                    "Ref": "zone2"
+                }
+            }
+        },
+        "app1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": {
+                    "Fn::Select": [
+                        2,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": {
+                    "Ref": "zone1"
+                }
+            }
+        },
+        "app2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": {
+                    "Fn::Select": [
+                        3,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": {
+                    "Ref": "zone2"
+                }
+            }
+        },
+        "db1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": {
+                    "Fn::Select": [
+                        4,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": {
+                    "Ref": "zone1"
+                }
+            }
+        },
+        "db2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": {
+                    "Fn::Select": [
+                        5,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": {
+                    "Ref": "zone2"
+                }
+            }
+        },
+        "websecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is web sg",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "ToPort": "22",
+                        "FromPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "ToPort": "80",
+                        "FromPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "ToPort": "443",
+                        "FromPort": "443",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "websg"
+                    }
+                ]
+            }
+        },
+        "appsecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is app security group",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "ToPort": "22",
+                        "FromPort": "22",
+                        "CidrIp": {
+                            "Ref": "vpccidr"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "ToPort": "8080",
+                        "FromPort": "8080",
+                        "CidrIp": {
+                            "Ref": "vpccidr"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "appsg"
+                    }
+                ]
+            }
+        },
+        "dbsecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This is for mysql",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "ToPort": "3306",
+                        "FromPort": "3306",
+                        "CidrIp": {
+                            "Ref": "vpccidr"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "dbsg"
+                    }
+                ]
+            }
+        }
+    }
+}
