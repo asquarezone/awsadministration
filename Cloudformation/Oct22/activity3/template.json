@@ -280,6 +280,134 @@
                     }
                 ]
             }
+        },
+        "ntierigw": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntierigw"
+                    }
+                ]
+            }
+        },
+        "AttachGateway": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "InternetGatewayId": {
+                    "Ref": "ntierigw"
+                }
+            }
+        },
+        "publicrt": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "publicrt"
+                    }
+                ]
+            }
+        },
+        "publicrtigw": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "ntierigw"
+                }
+            }
+        },
+        "privatert": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "privatert"
+                    }
+                ]
+            }
+        },
+        "publicweb1assc": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                }
+            }
+        },
+        "publicweb2assc": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                }
+            }
+        },
+        "privateapp1assc": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privateapp2assc": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "app2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privatedb1assc": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db1subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "privatedb2assc": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db2subnet"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
         }
     }
 }
