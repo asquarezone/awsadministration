@@ -408,6 +408,26 @@
                     "Ref": "privatert"
                 }
             }
+        },
+        "mysqlrdsdbsubnetgroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "from cloudformation",
+                "SubnetIds": [
+                    {
+                        "Ref": "db1subnet"
+                    },
+                    {
+                        "Ref": "db2subnet"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "dbsubnetfromcf"
+                    }
+                ]
+            }
         }
     }
 }
