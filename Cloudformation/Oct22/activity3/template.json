@@ -19,6 +19,15 @@
         "zone2": {
             "Description": "This is zone 2 for 3 subnets",
             "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "keypair": {
+            "Description": "select keypair",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "amiid": {
+            "Description": "amiid",
+            "Type": "String",
+            "Default": "ami-062df10d14676e201"
         }
     },
     "Resources": {
@@ -439,9 +448,9 @@
                 "BackupRetentionPeriod": 0,
                 "DBInstanceIdentifier": "qtrdsfromcfoct22",
                 "DBName": "samplefromcf",
-                "DBSubnetGroupName": 
-                { "Ref": "mysqlrdsdbsubnetgroup" }
-                ,
+                "DBSubnetGroupName": {
+                    "Ref": "mysqlrdsdbsubnetgroup"
+                },
                 "Engine": "MySQL",
                 "EngineVersion": "8.0.28",
                 "MasterUsername": "root",
@@ -459,6 +468,61 @@
                     {
                         "Ref": "dbsecuritygroup"
                     }
+                ]
+            }
+        },
+        "webec2": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "keypair"
+                },
+                "ImageId": {
+                    "Ref": "amiid"
+                },
+                "InstanceType": "t2.micro",
+                "Monitoring": "false",
+                "NetworkInterfaces": [
+                    {
+                        "AssociatePublicIpAddress": true,
+                        "GroupSet": [
+                            {
+                                "Ref": "websecuritygroup"
+                            }
+                        ],
+                        "SubnetId": {
+                            "Ref": "web1subnet"
+                        },
+                        "DeviceIndex": 0
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash",
+                                "sudo apt update",
+                                "sudo apt install apache2 -y"
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "weburl": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "webec2",
+                    "PublicIp"
                 ]
             }
         }
