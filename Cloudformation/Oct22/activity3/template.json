@@ -23,11 +23,25 @@
         "keypair": {
             "Description": "select keypair",
             "Type": "AWS::EC2::KeyPair::KeyName"
-        },
-        "amiid": {
-            "Description": "amiid",
-            "Type": "String",
-            "Default": "ami-062df10d14676e201"
+        }
+    },
+    "Mappings": {
+        "RegionMap": {
+            "us-east-1": {
+                "ami" : "ami-08c40ec9ead489470"
+            },
+            "us-east-2": {
+                "ami": "ami-097a2df4ac947655f"
+            },
+            "us-west-1": {
+                "ami": "ami-02ea247e531eb3ce6"
+            },
+            "us-west-2": {
+                "ami": "ami-017fecd1353bcc96e"
+            },
+            "ap-south-1": {
+                "ami": "ami-062df10d14676e201"
+            }
         }
     },
     "Resources": {
@@ -478,7 +492,11 @@
                     "Ref": "keypair"
                 },
                 "ImageId": {
-                    "Ref": "amiid"
+                "Fn::FindInMap": [
+                    "RegionMap",
+                    { "Ref": "AWS::Region" },
+                    "ami"
+                ]
                 },
                 "InstanceType": "t2.micro",
                 "Monitoring": "false",
