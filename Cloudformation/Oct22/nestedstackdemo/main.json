@@ -1,0 +1,12 @@
+{
+    "Resources": {
+        "vpcstack": {
+         "Type": "AWS::CloudFormation::Stack",
+         "Properties": {
+            "TemplateURL": "https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/template.json",
+            "TimeoutInMinutes": ""
+         }
+        }
+        
+    }
+}
