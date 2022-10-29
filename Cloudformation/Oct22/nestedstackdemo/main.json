@@ -1,12 +1,28 @@
 {
+    "Parameters": {
+        "vpccidr": {
+            "Type": "String",
+            "Default": "192.168.0.0/16"
+        },
+        "archname": {
+            "Type": "String",
+            "Default": "ntier"
+        }
+    },
     "Resources": {
         "vpcstack": {
-         "Type": "AWS::CloudFormation::Stack",
-         "Properties": {
-            "TemplateURL": "https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/template.json",
-            "TimeoutInMinutes": ""
-         }
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": "https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/reusablevpc.json",
+                "Parameters": {
+                    "cidr": {
+                        "Ref": "vpccidr"
+                    },
+                    "tagvalue": {
+                        "Ref": "archname"
+                    }
+                }
+            }
         }
-        
     }
 }

@@ -1,0 +1,32 @@
+{
+    "Parameters": {
+        "cidr": {
+            "Description": "cidr of vpc",
+            "Type": "String",
+            "Default": "192.168.0.0/16"
+        },
+        "tagvalue": {
+            "Description": "tag for resources",
+            "Type": "String",
+            "Default": "fromcf"
+        }
+    },
+    "Resources": {
+        "myvpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "cidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "tagvalue"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
