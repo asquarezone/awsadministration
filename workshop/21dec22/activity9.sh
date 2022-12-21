@@ -1,20 +1,37 @@
 #!/bin/bash
-region=$1
-image_name="RHEL-9.1.0_HVM-20221101-x86_64-2-Hourly2-GP2"
-owner_id="309956199498"
-default_region='us-west-2'
+
+function_return_value=""
+function assign_default_value {
+    function_return_value=""
+    value=$1
+    default_value=$2
+    if [[ -z "$value" ]]; then
+        function_return_value=$default_value
+    else
+        function_return_value=$value
+    fi
+}
+
+# first argument region
+assign_default_value $1 "us-west-2"
+region=$function_return_value
+
+# second argument image name
+assign_default_value $2 "RHEL-9.1.0_HVM-20221101-x86_64-2-Hourly2-GP2"
+image_name=$function_return_value
+
+# third argument owner-id
+assign_default_value $3 "309956199498"
+owner_id=$function_return_value
+
 group_name='openall'
 publickey_filename="id_rsa.pub"
 key_name="my-id-rsa"
 instance_type="t2.micro"
-instance_count=1
 default_user_name="ec2-user"
-# if region is not passed make us-west-2 as default region
-if [[ -z "$region" ]]; then
-  echo "region is not passed so ${default_region} will be considered"
-  region=$default_region
-fi
+
 az="${region}b"
+instance_count=1
 
 ami_id=$(aws ec2 describe-images --filters "Name=name,Values=${image_name}" "Name=owner-id,Values=${owner_id}" --query "Images[].ImageId" --region "$region" --output text)
 echo "Found Redhat 9 AMI: ${ami_id} in region ${region}"
