@@ -1,0 +1,17 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": ["ec2:*"],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": ["ec2:TerminateInstances"],
+            "Resource": "*",
+            "Effect": "Deny"
+
+        }
+
+    ]
+}
