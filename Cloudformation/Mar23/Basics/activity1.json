@@ -1,0 +1,13 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "classroom activity 1 done on march 25",
+	"Resources": {
+        "mys3bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": "qts3bucketfromcf250323"
+            }
+        }
+
+	}
+}
