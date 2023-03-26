@@ -26,6 +26,14 @@
             "Description": "db2 subnet cidr",
             "Type": "String",
             "Default": "192.168.3.0/24"
+        },
+        "az1": {
+            "Description": "This is az1",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "az2": {
+            "Description": "This is az2",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
         }
     },
     "Resources": {
@@ -58,6 +66,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
+                "AvailabilityZone": {
+                    "Ref": "az1"
+                },
                 "CidrBlock": {
                     "Ref": "web1cidr"
                 },
@@ -82,6 +93,9 @@
             "Properties": {
                 "VpcId": {
                     "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": {
+                    "Ref": "az2"
                 },
                 "CidrBlock": {
                     "Ref": "web2cidr"
@@ -108,6 +122,9 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
+                "AvailabilityZone": {
+                    "Ref": "az1"
+                },
                 "CidrBlock": {
                     "Ref": "db1cidr"
                 },
@@ -132,6 +149,9 @@
             "Properties": {
                 "VpcId": {
                     "Ref": "ntiervpc"
+                },
+                "AvailabilityZone": {
+                    "Ref": "az2"
                 },
                 "CidrBlock": {
                     "Ref": "db2cidr"
