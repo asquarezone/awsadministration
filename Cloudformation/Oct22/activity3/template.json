@@ -28,7 +28,7 @@
     "Mappings": {
         "RegionMap": {
             "us-east-1": {
-                "ami" : "ami-08c40ec9ead489470"
+                "ami": "ami-08c40ec9ead489470"
             },
             "us-east-2": {
                 "ami": "ami-097a2df4ac947655f"
@@ -492,11 +492,13 @@
                     "Ref": "keypair"
                 },
                 "ImageId": {
-                "Fn::FindInMap": [
-                    "RegionMap",
-                    { "Ref": "AWS::Region" },
-                    "ami"
-                ]
+                    "Fn::FindInMap": [
+                        "RegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "ami"
+                    ]
                 },
                 "InstanceType": "t2.micro",
                 "Monitoring": "false",
@@ -538,9 +540,17 @@
     "Outputs": {
         "weburl": {
             "Value": {
-                "Fn::GetAtt": [
-                    "webec2",
-                    "PublicIp"
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "webec2",
+                                "PublicIp"
+                            ]
+                        }
+                    ]
                 ]
             }
         }

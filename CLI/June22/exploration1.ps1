@@ -21,7 +21,7 @@ $websubnetid = aws ec2 create-subnet `
 
 Write-Host "Create a web subnet with id $websubnetid"
 
-aws ec2 delete-subnet --subnet-id $websubnetid --region $region
+#aws ec2 delete-subnet --subnet-id $websubnetid --region $region
 
-aws ec2 delete-vpc --vpc-id $vpcid --region $region
+#aws ec2 delete-vpc --vpc-id $vpcid --region $region
 
