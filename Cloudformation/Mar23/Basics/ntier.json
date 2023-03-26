@@ -6,6 +6,26 @@
             "Type": "String",
             "Default": "192.168.0.0/16",
             "Description": "Vpc CidrBlock"
+        },
+        "web1cidr": {
+            "Description": "web1 subnet cidr",
+            "Type": "String",
+            "Default": "192.168.0.0/24"
+        },
+        "web2cidr": {
+            "Description": "web2 subnet cidr",
+            "Type": "String",
+            "Default": "192.168.1.0/24"
+        },
+        "db1cidr": {
+            "Description": "db1 subnet cidr",
+            "Type": "String",
+            "Default": "192.168.2.0/24"
+        },
+        "db2cidr": {
+            "Description": "db2 subnet cidr",
+            "Type": "String",
+            "Default": "192.168.3.0/24"
         }
     },
     "Resources": {
@@ -20,6 +40,31 @@
                     {
                         "Key": "Name",
                         "Value": "ntiervpc"
+                    },
+                    {
+                        "Key": "Env",
+                        "Value": "Dev"
+                    },
+                    {
+                        "Key": "CreatedBy",
+                        "Value": "Cloudformation"
+                    }
+                ]
+            }
+        },
+        "web1subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Ref": "web1cidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web1"
                     },
                     {
                         "Key": "Env",
