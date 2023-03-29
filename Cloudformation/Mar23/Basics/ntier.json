@@ -171,6 +171,99 @@
                     }
                 ]
             }
+        },
+        "rdsDBSubnetGroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "ntierdbsubnetgroup",
+                "DBSubnetGroupName": "ntierdbsubnetgroup",
+                "SubnetIds": [
+                    {
+                        "Ref": "db1subnet"
+                    },
+                    {
+                        "Ref": "db2subnet"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Env",
+                        "Value": "Dev"
+                    },
+                    {
+                        "Key": "CreatedBy",
+                        "Value": "Cloudformation"
+                    }
+                ]
+            }
+        },
+        "ntierdbsg": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "ntierdb security group",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": {
+                            "Ref": "vpccidr"
+                        },
+                        "Description": "Allow all incoming connections on 3306",
+                        "IpProtocol": "tcp",
+                        "FromPort": 3306,
+                        "ToPort": 3306
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Env",
+                        "Value": "Dev"
+                    },
+                    {
+                        "Key": "CreatedBy",
+                        "Value": "Cloudformation"
+                    }
+                ]
+            }
+        },
+        "ntierdb": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "AllocatedStorage": 20,
+                "DBInstanceClass": "db.t3.micro",
+                "AllowMajorVersionUpgrade": false,
+                "AutoMinorVersionUpgrade": false,
+                "BackupRetentionPeriod": 0,
+                "DBInstanceIdentifier": "qtrdsdbinstancefromcf",
+                "DBName": "employees",
+                "DBSubnetGroupName": {
+                    "Ref": "rdsDBSubnetGroup"
+                },
+                "Engine": "mysql",
+                "EngineVersion": "8.0.32",
+                "MasterUsername": "admin",
+                "MasterUserPassword": "adminadmin",
+                "MultiAZ": false,
+                "Port": "3306",
+                "PubliclyAccessible": false,
+                "StorageType": "gp2",
+                "Tags": [
+                    {
+                        "Key": "Env",
+                        "Value": "Dev"
+                    },
+                    {
+                        "Key": "CreatedBy",
+                        "Value": "Cloudformation"
+                    }
+                ],
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "ntierdbsg"
+                    }
+                ]
+            }
         }
     }
 }
