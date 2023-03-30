@@ -43,6 +43,24 @@
                 "mysql",
                 "postgres"
             ]
+        },
+        "keypair": {
+            "Description": "Keypair",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "imageid": {
+            "Description": "ami id",
+            "Type": "String",
+            "Default": "ami-0b584e5449fa1dd56"
+        },
+        "instancetype": {
+            "Description": "instance type",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t3.micro"
+            ]
         }
     },
     "Resources": {
@@ -298,6 +316,43 @@
                 ],
                 "VpcId": {
                     "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Env",
+                        "Value": "Dev"
+                    },
+                    {
+                        "Key": "CreatedBy",
+                        "Value": "Cloudformation"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": "websg"
+                    }
+                ]
+            }
+        },
+        "webec2": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "keypair"
+                },
+                "ImageId": {
+                    "Ref": "imageid"
+                },
+                "InstanceType": {
+                    "Ref": "instancetype"
+                },
+                "Monitoring": false,
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "websg"
+                    }
+                ],
+                "SubnetId": {
+                    "Ref": "web1subnet"
                 },
                 "Tags": [
                     {
