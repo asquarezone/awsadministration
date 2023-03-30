@@ -346,14 +346,20 @@
                     "Ref": "instancetype"
                 },
                 "Monitoring": false,
-                "SecurityGroupIds": [
+                "NetworkInterfaces": [
                     {
-                        "Ref": "websg"
+                        "AssociatePublicIpAddress": true,
+                        "SubnetId": {
+                            "Ref": "web1subnet"
+                        },
+                        "GroupSet": [
+                            {
+                                "Ref": "websg"
+                            }
+                        ],
+                        "DeviceIndex": "0"
                     }
                 ],
-                "SubnetId": {
-                    "Ref": "web1subnet"
-                },
                 "Tags": [
                     {
                         "Key": "Env",
@@ -365,7 +371,7 @@
                     },
                     {
                         "Key": "Name",
-                        "Value": "websg"
+                        "Value": "webec2"
                     }
                 ]
             }
