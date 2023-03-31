@@ -466,5 +466,23 @@
                 }
             }
         }
+    },
+    "Outputs": {
+        "apacheUrl": {
+            "Value": {
+                "Fn::Join": [
+                    "://",
+                    [
+                        "http",
+                        {
+                            "Fn::GetAtt": [
+                                "webec2",
+                                "PublicIp"
+                            ]
+                        }
+                    ]
+                ]
+            }
+        }
     }
 }
