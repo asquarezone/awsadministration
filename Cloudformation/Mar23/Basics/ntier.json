@@ -63,6 +63,18 @@
             ]
         }
     },
+    "Mappings": {
+        "ubuntuMap": {
+            "us-west-2": {
+                "20.04": "ami-0223246728818f162",
+                "22.04": "ami-0fcf52bcf5db7b003"
+            },
+            "ap-south-2": {
+                "20.04": "ami-0dc2e08b4c26a85a2",
+                "22.04": "ami-0b584e5449fa1dd56"
+            }
+        }
+    },
     "Resources": {
         "ntiervpc": {
             "Type": "AWS::EC2::VPC",
@@ -340,7 +352,13 @@
                     "Ref": "keypair"
                 },
                 "ImageId": {
-                    "Ref": "imageid"
+                    "Fn::FindInMap": [
+                        "ubuntuMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "22.04"
+                    ]
                 },
                 "InstanceType": {
                     "Ref": "instancetype"
