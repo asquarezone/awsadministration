@@ -469,6 +469,12 @@
     },
     "Outputs": {
         "apacheUrl": {
+            "Description": "Endpoint to connect to webserver",
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-apacheUrl"
+                }
+            },
             "Value": {
                 "Fn::Join": [
                     "://",
@@ -483,6 +489,15 @@
                     ]
                 ]
             }
+        },
+        "dbEndpoint": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "ntierdb",
+                    "Endpoint.Address"
+                ]
+            },
+            "Description": "Endpoint to connect to database"
         }
     }
 }
