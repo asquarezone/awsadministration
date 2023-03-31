@@ -61,18 +61,50 @@
                 "t2.micro",
                 "t3.micro"
             ]
+        },
+        "createdb": {
+            "Description": "Do you want to Create DB?",
+            "Type": "String",
+            "Default": "No",
+            "AllowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "createvm": {
+            "Description": "Do you want to Create Ec2?",
+            "Type": "String",
+            "Default": "Yes",
+            "AllowedValues": [
+                "Yes",
+                "No"
+            ]
         }
     },
     "Mappings": {
         "ubuntuMap": {
             "us-west-2": {
-                "20.04": "ami-0223246728818f162",
-                "22.04": "ami-0fcf52bcf5db7b003"
+                "2004": "ami-0223246728818f162",
+                "2204": "ami-0fcf52bcf5db7b003"
             },
             "ap-south-2": {
-                "20.04": "ami-0dc2e08b4c26a85a2",
-                "22.04": "ami-0b584e5449fa1dd56"
+                "2004": "ami-0dc2e08b4c26a85a2",
+                "2204": "ami-0b584e5449fa1dd56"
             }
+        }
+    },
+    "Conditions": {
+        "createRDSInstance": {
+            "Fn::Equals": [
+                "createdb",
+                "Yes"
+            ]
+        },
+        "createWebVM": {
+            "Fn::Equals": [
+                "createvm",
+                "Yes"
+            ]
         }
     },
     "Resources": {
@@ -268,6 +300,7 @@
         },
         "ntierdb": {
             "Type": "AWS::RDS::DBInstance",
+            "Condition": "createRDSInstance",
             "Properties": {
                 "AllocatedStorage": 20,
                 "DBInstanceClass": "db.t3.micro",
@@ -347,6 +380,7 @@
         },
         "webec2": {
             "Type": "AWS::EC2::Instance",
+            "Condition": "createWebVM",
             "Properties": {
                 "KeyName": {
                     "Ref": "keypair"
@@ -357,7 +391,7 @@
                         {
                             "Ref": "AWS::Region"
                         },
-                        "22.04"
+                        "2204"
                     ]
                 },
                 "InstanceType": {
