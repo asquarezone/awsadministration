@@ -360,6 +360,18 @@
                         "DeviceIndex": "0"
                     }
                 ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "\n",
+                            [
+                                "#!/bin/bash",
+                                "sudo apt update",
+                                "sudo apt install apache2 -y"
+                            ]
+                        ]
+                    }
+                },
                 "Tags": [
                     {
                         "Key": "Env",
