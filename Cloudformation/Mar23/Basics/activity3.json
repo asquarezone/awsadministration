@@ -1,0 +1,60 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "classroom activity 2 25032023",
+    "Parameters": {
+        "keypair": {
+            "Description": "keyname",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "ami": {
+            "Type": "AWS::EC2::Image::Id"
+        },
+        "sg": {
+            "Type": "String"
+        },
+        "subnetid": {
+            "Type": "AWS::EC2::Subnet::Id"
+        }
+    },
+    "Resources": {
+        "ubuntu": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "keypair"
+                },
+                "ImageId": {
+                    "Ref": "ami"
+                },
+                "InstanceType": "t2.micro",
+                "Monitoring": false,
+                "NetworkInterfaces": [
+                    {
+                        "AssociatePublicIpAddress": true,
+                        "SubnetId": {
+                            "Ref": "subnetid"
+                        },
+                        "GroupSet": [
+                            {
+                                "Ref": "sg"
+                            }
+                        ],
+                        "DeviceIndex": "0"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "\n",
+                            [
+                                "#!/bin/bash -ex",
+                                "sudo apt update",
+                                "sudo apt install nginx -y"
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
