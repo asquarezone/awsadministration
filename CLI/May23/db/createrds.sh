@@ -65,25 +65,29 @@ else
         --output text)
     echo "Found security group with id ${SG_ID}"
 fi
+RDS_INSTANCE_COUNT=$(aws rds describe-db-instances --query "length(DBInstances[?DBInstanceIdentifier=='${DBINSTANCE_IDENTIFIER}'])" )
 
-exit 0
-# Create a mysql rds instance
-OUTPUT=$(aws rds create-db-instance \
-   --db-name ${DB_NAME} \
-   --db-instance-identifier ${DBINSTANCE_IDENTIFIER} \
-   --allocated-storage ${SIZE_IN_GB} \
-   --db-instance-class ${DB_INSTANCE_CLASS} \
-   --engine ${DB_ENGINE} \
-   --master-username ${USER_NAME} \
-   --master-user-password ${USER_PASSWORD} \
-   --backup-retention-period 0 \
-   --no-multi-az \
-   --no-auto-minor-version-upgrade \
-   --publicly-accessible \
-   --vpc-security-group-ids ${SG_ID})
+if [[ $RDS_INSTANCE_COUNT == '0' ]]; then
 
-if [[ $DISPLAY_OUTPUT != "NO" ]]; then
-    echo $OUTPUT
-fi
-    
+    # Create a mysql rds instance
+    OUTPUT=$(aws rds create-db-instance \
+    --db-name ${DB_NAME} \
+    --db-instance-identifier ${DBINSTANCE_IDENTIFIER} \
+    --allocated-storage ${SIZE_IN_GB} \
+    --db-instance-class ${DB_INSTANCE_CLASS} \
+    --engine ${DB_ENGINE} \
+    --master-username ${USER_NAME} \
+    --master-user-password ${USER_PASSWORD} \
+    --backup-retention-period 0 \
+    --no-multi-az \
+    --no-auto-minor-version-upgrade \
+    --publicly-accessible \
+    --vpc-security-group-ids ${SG_ID})
+
+    if [[ $DISPLAY_OUTPUT != "NO" ]]; then
+        echo $OUTPUT
+    fi
+else
+    echo "Found db instance with name ${DBINSTANCE_IDENTIFIER}"
+fi    
 
