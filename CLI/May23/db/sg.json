@@ -1,0 +1,45 @@
+{
+    "SecurityGroups": [
+        {
+            "Description": "rds mysql security group",
+            "GroupName": "mysqlsg",
+            "IpPermissions": [
+                {
+                    "FromPort": 3306,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 3306,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "OwnerId": "678879106782",
+            "GroupId": "sg-0c8d148f9bf57e6ab",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "mysqlsg"
+                }
+            ],
+            "VpcId": "vpc-0263a09e73d00080c"
+        }
+    ]
+}
