@@ -11,6 +11,48 @@
                     }
                 ]
             }
+        },
+        "websubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "ap-south-1a",
+                "VpcId": "vpc-011884d7db21f0d84",
+                "CidrBlock": "10.10.0.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web"
+                    }
+                ]
+            }
+        },
+        "appsubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "ap-south-1a",
+                "VpcId": "vpc-011884d7db21f0d84",
+                "CidrBlock": "10.10.1.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "app"
+                    }
+                ]
+            }
+        },
+        "dbsubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "ap-south-1a",
+                "VpcId": "vpc-011884d7db21f0d84",
+                "CidrBlock": "10.10.2.0/24",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db"
+                    }
+                ]
+            }
         }
     }
 }
