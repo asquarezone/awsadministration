@@ -1,0 +1,16 @@
+{
+    "Resources": {
+        "ntiervpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "10.10.0.0/16",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "primaryvnet"
+                    }
+                ]
+            }
+        }
+    }
+}
