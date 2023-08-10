@@ -1,9 +1,29 @@
 {
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "This template creates a ntier architecture",
+    "Parameters": {
+        "vpccidr": {
+            "Description": "vpc cidr range",
+            "Type": "String",
+            "Default": "10.10.0.0/16"
+        },
+        "subnetcidrs": {
+            "Description": "These are subnet ranges",
+            "Type": "CommaDelimitedList",
+            "Default": [
+                "10.10.0.0/24",
+                "10.10.1.0/24",
+                "10.10.2.0/24"
+            ]
+        }
+    },
     "Resources": {
         "ntiervpc": {
             "Type": "AWS::EC2::VPC",
             "Properties": {
-                "CidrBlock": "10.10.0.0/16",
+                "CidrBlock": {
+                    "Ref": "vpccidr"
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -19,7 +39,14 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.0.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        0,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -35,7 +62,14 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.1.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        1,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -51,7 +85,14 @@
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
-                "CidrBlock": "10.10.2.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        2,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
