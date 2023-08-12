@@ -158,6 +158,42 @@
                     "Ref": "igw"
                 }
             }
+        },
+        "webtopublic": {
+            "Description": "associate web subnet to public route table",
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                },
+                "SubnetId": {
+                    "Ref": "websubnet"
+                }
+            }
+        },
+        "apptoprivate": {
+            "Description": "associate app subnet to private route table",
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "privatert"
+                },
+                "SubnetId": {
+                    "Ref": "appsubnet"
+                }
+            }
+        },
+        "dbtoprivate": {
+            "Description": "associate db subnet to private route table",
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "privatert"
+                },
+                "SubnetId": {
+                    "Ref": "dbsubnet"
+                }
+            }
         }
     }
 }
