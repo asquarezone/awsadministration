@@ -229,6 +229,31 @@
                     }
                 ]
             }
+        },
+        "appsg": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "This opens necessary ports for app servers",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 0,
+                        "ToPort": 65535,
+                        "CidrIp": {
+                            "Ref": "vpccidr"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "appsg"
+                    }
+                ]
+            }
         }
     }
 }
