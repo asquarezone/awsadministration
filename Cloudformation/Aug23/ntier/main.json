@@ -10,7 +10,7 @@
         "subnetcidrs": {
             "Description": "These are subnet ranges",
             "Type": "CommaDelimitedList",
-            "Default": "10.10.0.0/24,10.10.1.0/24,10.10.2.0/24"
+            "Default": "10.10.0.0/24,10.10.1.0/24,10.10.2.0/24,10.10.3.0/24"
         },
         "webami": {
             "Description": "Ami id of web ec2",
@@ -24,6 +24,22 @@
         "webkey": {
             "Description": "key pair for web",
             "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "db1subnetaz": {
+            "Description": "az for db1 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "db2subnetaz": {
+            "Description": "az for db2 subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "websubnetaz": {
+            "Description": "az for web subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "appsubnetaz": {
+            "Description": "az for app subnet",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
         }
     },
     "Resources": {
@@ -44,7 +60,9 @@
         "websubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "ap-south-1a",
+                "AvailabilityZone": {
+                    "Ref": "websubnetaz"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -67,7 +85,9 @@
         "appsubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "ap-south-1a",
+                "AvailabilityZone": {
+                    "Ref": "appsubnetaz"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -90,7 +110,9 @@
         "dbsubnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
-                "AvailabilityZone": "ap-south-1a",
+                "AvailabilityZone": {
+                    "Ref": "db1subnetaz"
+                },
                 "VpcId": {
                     "Ref": "ntiervpc"
                 },
@@ -105,7 +127,32 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "db"
+                        "Value": "db1"
+                    }
+                ]
+            }
+        },
+        "db2subnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "db2subnetaz"
+                },
+                "VpcId": {
+                    "Ref": "ntiervpc"
+                },
+                "CidrBlock": {
+                    "Fn::Select": [
+                        3,
+                        {
+                            "Ref": "subnetcidrs"
+                        }
+                    ]
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db2"
                     }
                 ]
             }
@@ -315,13 +362,61 @@
                             }
                         ],
                         "DeviceIndex": "0"
-
                     }
                 ],
                 "Tags": [
                     {
                         "Key": "Name",
                         "Value": "webec2"
+                    }
+                ]
+            }
+        },
+        "rdsDBSubnetGroup": {
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "Properties": {
+                "DBSubnetGroupDescription": "this is db subnet",
+                "SubnetIds": [
+                    {
+                        "Ref": "dbsubnet"
+                    },
+                    {
+                        "Ref": "db2subnet"
+                    }
+                ],
+                "Tags": []
+            }
+        },
+        "dbinstance": {
+            "Type": "AWS::RDS::DBInstance",
+            "Properties": {
+                "AllocatedStorage": "20",
+                "DBInstanceClass": "db.t2.micro",
+                "AllowMajorVersionUpgrade": false,
+                "AutoMinorVersionUpgrade": false,
+                "BackupRetentionPeriod": 0,
+                "DBInstanceIdentifier": "qtrdsdb",
+                "DBName": "employee",
+                "VPCSecurityGroups": [
+                    {
+                        "Ref": "dbsg"
+                    }
+                ],
+                "DBSnapshotIdentifier": "",
+                "DBSubnetGroupName": {
+                    "Ref": "rdsDBSubnetGroup"
+                },
+                "Engine": "mysql",
+                "EngineVersion": "8.0",
+                "MasterUsername": "admin",
+                "MasterUserPassword": "adminadmin",
+                "MultiAZ": false,
+                "PubliclyAccessible": true,
+                "StorageType": "gp2",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntierdb"
                     }
                 ]
             }
