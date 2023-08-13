@@ -11,6 +11,19 @@
             "Description": "These are subnet ranges",
             "Type": "CommaDelimitedList",
             "Default": "10.10.0.0/24,10.10.1.0/24,10.10.2.0/24"
+        },
+        "webami": {
+            "Description": "Ami id of web ec2",
+            "Type": "AWS::EC2::Image::Id"
+        },
+        "webinstancetype": {
+            "Description": "instance type",
+            "Type": "String",
+            "Default": "t2.micro"
+        },
+        "webkey": {
+            "Description": "key pair for web",
+            "Type": "AWS::EC2::KeyPair::KeyName"
         }
     },
     "Resources": {
@@ -274,6 +287,34 @@
                     {
                         "Key": "Name",
                         "Value": "dbsg"
+                    }
+                ]
+            }
+        },
+        "webec2": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": {
+                    "Ref": "webami"
+                },
+                "InstanceType": {
+                    "Ref": "webinstancetype"
+                },
+                "KeyName": {
+                    "Ref": "webkey"
+                },
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "websg"
+                    }
+                ],
+                "SubnetId": {
+                    "Ref": "websubnet"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "webec2"
                     }
                 ]
             }
