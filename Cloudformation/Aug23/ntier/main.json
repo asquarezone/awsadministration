@@ -411,13 +411,31 @@
                 "MasterUsername": "admin",
                 "MasterUserPassword": "adminadmin",
                 "MultiAZ": false,
-                "PubliclyAccessible": true,
+                "PubliclyAccessible": false,
                 "StorageType": "gp2",
                 "Tags": [
                     {
                         "Key": "Name",
                         "Value": "ntierdb"
                     }
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "webip": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "webec2",
+                    "PublicIp"
+                ]
+            }
+        },
+        "dbendpoint": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "dbinstance",
+                    "Endpoint.Address"
                 ]
             }
         }
