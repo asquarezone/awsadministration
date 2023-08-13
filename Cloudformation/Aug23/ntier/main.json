@@ -303,14 +303,21 @@
                 "KeyName": {
                     "Ref": "webkey"
                 },
-                "SecurityGroupIds": [
+                "NetworkInterfaces": [
                     {
-                        "Ref": "websg"
+                        "AssociatePublicIpAddress": true,
+                        "SubnetId": {
+                            "Ref": "websubnet"
+                        },
+                        "GroupSet": [
+                            {
+                                "Ref": "websg"
+                            }
+                        ],
+                        "DeviceIndex": "0"
+
                     }
                 ],
-                "SubnetId": {
-                    "Ref": "websubnet"
-                },
                 "Tags": [
                     {
                         "Key": "Name",
