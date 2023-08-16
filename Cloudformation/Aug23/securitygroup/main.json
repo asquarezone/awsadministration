@@ -1,0 +1,55 @@
+{
+    "Parameters": {
+        "vpcid": {
+            "Type": "String"
+        }
+    },
+    "Resources": {
+        "sg": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "this is for web servers",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 22,
+                        "ToPort": 22,
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 80,
+                        "ToPort": 80,
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 443,
+                        "ToPort": 443,
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "vpcid"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "websg"
+                    }
+                ]
+            }
+        }
+    },
+    "Outputs": {
+        "sgid": {
+            "Description": "security group id",
+            "Value": {
+                "Ref": "sg"
+            },
+            "Export": {
+                "Name": "sg"
+            }
+        }
+    }
+}
