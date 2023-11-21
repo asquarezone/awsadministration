@@ -1,21 +1,30 @@
 #!/bin/bash
 
-REGION="us-east-1"
+#./reusableec2.sh "us-east-1" "vpc-cd32bcb0" "subnet-15ede058" "sg-0bdd39a6be616d961 sg-0f67708d44b7f6cb1" "id_rsa" "ami-0fc5d935ebf8bc3bc" "t2.micro"
+
+REGION=$1
+#"us-east-1"
 AZ="${REGION}a"
 
 # This script will not 
 # create vpc, rather uses existing one
-VPC_ID="vpc-cd32bcb0"
+VPC_ID=$2
+#"vpc-cd32bcb0"
 # create subnet rather uses exiting one
-SUBNET_ID="subnet-15ede058"
+SUBNET_ID=$3
+#"subnet-15ede058"
 # create security groups rather uses existing
-SECURITY_GROUP_IDS="sg-0bdd39a6be616d961 sg-0f67708d44b7f6cb1"
+SECURITY_GROUP_IDS=$4
+#"sg-0bdd39a6be616d961 sg-0f67708d44b7f6cb1"
 # create key pairs rather uses existing keys
-KEY_NAME="id_rsa"
+KEY_NAME=$5
+#"id_rsa"
 
 # will create ec2 instance of AMI of your choice
-AMI_ID="ami-0fc5d935ebf8bc3bc"
-INSTANCE_TYPE="t2.micro"
+AMI_ID=$6
+#"ami-0fc5d935ebf8bc3bc"
+INSTANCE_TYPE=$7
+#"t2.micro"
 
 
 # Create an ec2 instance
