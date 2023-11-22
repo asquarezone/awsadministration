@@ -32,6 +32,18 @@ AMI_ID="ami-0fc5d935ebf8bc3bc"
 ## --instance-type
 INSTANCE_TYPE="t2.micro"
 
+containsSubstring() {
+   local pattern="$1"
+   local value="$2"
+   if [[ $value == $pattern* ]]; then
+           return 0
+   else
+           return 1
+   fi
+}
+
+
+
 while [[ $# -ne 0 ]]; do
     case "$1" in
         --region)
@@ -78,23 +90,46 @@ esac
 
 done
 AZ="${REGION}a"
+isValidVpc() {
+    if containsSubstring "vpc-" "$VPC_ID" ; then
+        
+        return 0
+    else
+        echo "enter valid vpc"
+        return 1
+    fi
+}
+isValidSubnet() {
+    # fix this
+    return 0
+}
+isValidAMI() {
+    # fix this
+    return 0
+}
 
-echo "aws ec2 run-instances \
-    --instance-type ${INSTANCE_TYPE} \
-    --key-name ${KEY_NAME} \
-    --security-group-ids ${SECURITY_GROUP_IDS} \
-    --subnet-id ${SUBNET_ID} \
-    --image-id ${AMI_ID} \
-    --region ${REGION} \
-"
+if isValidVpc && isValidSubnet && isValidAMI ; then
+
+    echo "aws ec2 run-instances \
+        --instance-type ${INSTANCE_TYPE} \
+        --key-name ${KEY_NAME} \
+        --security-group-ids ${SECURITY_GROUP_IDS} \
+        --subnet-id ${SUBNET_ID} \
+        --image-id ${AMI_ID} \
+        --region ${REGION} \
+    "
 
 
-Create an ec2 instance
-aws ec2 run-instances \
-    --instance-type ${INSTANCE_TYPE} \
-    --key-name ${KEY_NAME} \
-    --security-group-ids ${SECURITY_GROUP_IDS} \
-    --subnet-id ${SUBNET_ID} \
-    --image-id ${AMI_ID} \
-    --region "${REGION}
-
+    # Create an ec2 instance
+    aws ec2 run-instances \
+        --instance-type ${INSTANCE_TYPE} \
+        --key-name ${KEY_NAME} \
+        --security-group-ids ${SECURITY_GROUP_IDS} \
+        --subnet-id ${SUBNET_ID} \
+        --image-id ${AMI_ID} \
+        --region "${REGION}"
+    exit 0
+else
+    echo "enter valid values"
+    exit 1
+fi
