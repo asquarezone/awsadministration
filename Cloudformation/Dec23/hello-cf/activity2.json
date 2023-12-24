@@ -1,0 +1,27 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "vpccidr": {
+            "Description": "cidr block for vpc",
+            "Type": "String",
+            "Default": "10.100.0.0/16"
+        }
+    },
+    "Resources": {
+        "network": {
+            "Description": "This is vpc primary network",
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "vpccidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier-primary"
+                    }
+                ]
+            }
+        }
+    }
+}
