@@ -1,0 +1,13 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Resources": {
+        "mys3": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "AccessControl": "Private",
+                "BucketName": "qtcftestdec23"
+            }
+        }
+        
+    }
+}
