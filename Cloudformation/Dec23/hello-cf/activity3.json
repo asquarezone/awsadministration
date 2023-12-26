@@ -80,14 +80,20 @@
                 "ImageId": "ami-008fe2fc65df48dac",
                 "InstanceType": "t2.micro",
                 "Monitoring": "false",
-                "SecurityGroupIds": [
+                "NetworkInterfaces": [
                     {
-                        "Ref": "WebSecurityGroup"
+                        "AssociatePublicIpAddress": true,
+                        "SubnetId": {
+                            "Ref": "websubnet"
+                        },
+                        "DeviceIndex": "0",
+                        "GroupSet": [
+                            {
+                                "Ref": "WebSecurityGroup"
+                            }
+                        ]
                     }
                 ],
-                "SubnetId": {
-                    "Ref": "websubnet"
-                },
                 "Tags": [
                     {
                         "Key": "Name",
