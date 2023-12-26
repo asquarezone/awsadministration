@@ -1,0 +1,100 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "networkrange": {
+            "Description": "This is cidr range of network",
+            "Type": "String",
+            "Default": "10.100.0.0/16"
+        },
+        "websubnetaz": {
+            "Description": "this is web subnet az",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "websubnetrange": {
+            "Type": "String",
+            "Default": "10.100.0.0/24"
+        },
+        "keyName": {
+            "Description": "key name",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        }
+    },
+    "Resources": {
+        "network": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "networkrange"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier"
+                    }
+                ]
+            }
+        },
+        "websubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "websubnetaz"
+                },
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "CidrBlock": {
+                    "Ref": "websubnetrange"
+                }
+            }
+        },
+        "WebSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Allow http to client host",
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 80,
+                        "ToPort": 80,
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": 22,
+                        "ToPort": 22,
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ]
+            }
+        },
+        "web": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "keyName"
+                },
+                "ImageId": "ami-008fe2fc65df48dac",
+                "InstanceType": "t2.micro",
+                "Monitoring": "false",
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "WebSecurityGroup"
+                    }
+                ],
+                "SubnetId": {
+                    "Ref": "websubnet"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "fromcf"
+                    }
+                ]
+            }
+        }
+    }
+}

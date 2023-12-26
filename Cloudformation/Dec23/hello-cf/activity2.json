@@ -5,6 +5,14 @@
             "Description": "cidr block for vpc",
             "Type": "String",
             "Default": "10.100.0.0/16"
+        },
+        "webcidr": {
+            "Type": "String",
+            "Default": "10.100.0.0/24"
+        },
+        "businesscidr": {
+            "Type": "String",
+            "Default": "10.100.0.0/24"
         }
     },
     "Resources": {
@@ -30,11 +38,31 @@
                 "VpcId": {
                     "Ref": "network"
                 },
-                "CidrBlock": "10.100.0.0/24",
+                "CidrBlock": {
+                    "Ref": "webcidr"
+                },
                 "Tags": [
                     {
                         "Key": "Name",
                         "Value": "web"
+                    }
+                ]
+            }
+        },
+        "businesssubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-west-2a",
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "CidrBlock": {
+                    "Ref": "businesscidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "business"
                     }
                 ]
             }

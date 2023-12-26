@@ -5,7 +5,7 @@
             "Type": "AWS::S3::Bucket",
             "Properties": {
                 "AccessControl": "Private",
-                "BucketName": "qtcftestdec23"
+                "BucketName": "qtcftestdec23tbd"
             }
         }
         
