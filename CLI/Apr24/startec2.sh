@@ -1,7 +1,12 @@
 #!/bin/bash
 
-tagName="Env"
-tagValue="Dev"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <tagName> <tagValue>"
+    exit 1
+else
+    tagName=$1
+    tagValue=$2
+fi
 
 
 # get all active regions for my account

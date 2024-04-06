@@ -1,8 +1,13 @@
 #!/bin/bash
 
-tagName="Env"
-tagValue="Dev"
 
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <tagName> <tagValue>"
+    exit 1
+else
+    tagName=$1
+    tagValue=$2
+fi
 
 # get all active regions for my account
 
@@ -19,7 +24,7 @@ for region in $regions; do
         --query "Reservations[0].Instances[].InstanceId" \
         --output text\
         --region $region)
-    
+
     if [[  $instance_ids != "None" ]]; then
         echo "Following instances will be stopped: ${instance_ids}"
         # stop all the instances
