@@ -16,7 +16,7 @@
                 ]
             }
         },
-        "web1-subnet": {
+        "web1subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "AvailabilityZone": "ap-south-1a",
@@ -32,7 +32,7 @@
                 }
             }
         },
-        "web2-subnet": {
+        "web2subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "AvailabilityZone": "ap-south-1b",
@@ -48,7 +48,7 @@
                 }
             }
         },
-        "db1-subnet": {
+        "db1subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "AvailabilityZone": "ap-south-1a",
@@ -64,7 +64,7 @@
                 }
             }
         },
-        "db2-subnet": {
+        "db2subnet": {
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "AvailabilityZone": "ap-south-1b",
