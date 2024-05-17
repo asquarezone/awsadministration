@@ -176,7 +176,6 @@
         },
         "publicRoute": {
             "Type": "AWS::EC2::Route",
-            "DependsOn": "GatewayToInternet",
             "Properties": {
                 "RouteTableId": {
                     "Ref": "publicRouteTable"
