@@ -1,11 +1,25 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "This template create an ntier app",
+    "Parameters": {
+        "vpcCidr": {
+            "Description": "This paramter defines the cidr block for vpc",
+            "Type": "String",
+            "Default": "192.168.0.0/16"
+        },
+        "subnetCidrs": {
+            "Description": "subnet cidrs",
+            "Type": "CommaDelimitedList",
+            "Default": "192.168.0.0/24, 192.168.1.0/24, 192.168.2.0/24, 192.168.3.0/24"
+        }
+    },
     "Resources": {
         "network": {
             "Type": "AWS::EC2::VPC",
             "Properties": {
-                "CidrBlock": "192.168.0.0/16",
+                "CidrBlock": {
+                    "Ref": "vpcCidr"
+                },
                 "EnableDnsHostnames": true,
                 "EnableDnsSupport": true,
                 "Tags": [
@@ -20,7 +34,14 @@
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "AvailabilityZone": "ap-south-1a",
-                "CidrBlock": "192.168.0.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        0,
+                        {
+                            "Ref": "subnetCidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -36,7 +57,14 @@
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "AvailabilityZone": "ap-south-1b",
-                "CidrBlock": "192.168.1.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        1,
+                        {
+                            "Ref": "subnetCidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -52,7 +80,14 @@
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "AvailabilityZone": "ap-south-1a",
-                "CidrBlock": "192.168.2.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        2,
+                        {
+                            "Ref": "subnetCidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
@@ -68,7 +103,14 @@
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "AvailabilityZone": "ap-south-1b",
-                "CidrBlock": "192.168.3.0/24",
+                "CidrBlock": {
+                    "Fn::Select": [
+                        3,
+                        {
+                            "Ref": "subnetCidrs"
+                        }
+                    ]
+                },
                 "Tags": [
                     {
                         "Key": "Name",
