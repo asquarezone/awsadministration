@@ -137,6 +137,28 @@
                     "Ref": "network"
                 }
             }
+        },
+        "igw": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier-igw"
+                    }
+                ]
+            }
+        },
+        "AttachGateway": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "InternetGatewayId": {
+                    "Ref": "igw"
+                }
+            }
         }
     }
 }
