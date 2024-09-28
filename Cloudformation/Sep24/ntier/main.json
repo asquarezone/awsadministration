@@ -1,0 +1,316 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "networkCidr": {
+            "Description": "Network CidrBlock",
+            "Type": "String",
+            "Default": "10.0.0.0/16"
+        },
+        "websubnetcidr": {
+            "Description": "web subnet CidrBlock",
+            "Type": "String",
+            "Default": "10.0.0.0/24"
+        },
+        "websubnetaz": {
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "dbsubnetcidr": {
+            "Description": "db subnet CidrBlock",
+            "Type": "String",
+            "Default": "10.0.1.0/24"
+        },
+        "dbsubnetaz": {
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "keypair": {
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "ami": {
+            "Description": "ubuntu ami id",
+            "Type": "String",
+            "Default": "ami-0522ab6e1ddcc7055"
+        }
+    },
+    "Resources": {
+        "network": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "networkCidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier"
+                    }
+                ]
+            }
+        },
+        "web": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "websubnetaz"
+                },
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "CidrBlock": {
+                    "Ref": "websubnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web"
+                    }
+                ]
+            }
+        },
+        "db": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Ref": "dbsubnetaz"
+                },
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "CidrBlock": {
+                    "Ref": "dbsubnetcidr"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db"
+                    }
+                ]
+            }
+        },
+        "ntierigw": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "ntier"
+                    }
+                ]
+            }
+        },
+        "AttachGateway": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "InternetGatewayId": {
+                    "Ref": "ntierigw"
+                }
+            }
+        },
+        "publicrt": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "public"
+                    }
+                ]
+            }
+        },
+        "publicroute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "ntierigw"
+                }
+            }
+        },
+        "webpublic": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "web"
+                },
+                "RouteTableId": {
+                    "Ref": "publicrt"
+                }
+            }
+        },
+        "privatert": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "private"
+                    }
+                ]
+            }
+        },
+        "privatertassociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "db"
+                },
+                "RouteTableId": {
+                    "Ref": "privatert"
+                }
+            }
+        },
+        "websg": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "web sg",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": 80,
+                        "ToPort": 80,
+                        "IpProtocol": "tcp"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": 443,
+                        "ToPort": 443,
+                        "IpProtocol": "tcp"
+                    },
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": 22,
+                        "ToPort": 22,
+                        "IpProtocol": "tcp"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "web sg"
+                    }
+                ]
+            }
+        },
+        "dbsecuritygroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "db security group",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": {
+                            "Ref": "networkCidr"
+                        },
+                        "FromPort": 0,
+                        "ToPort": 65535,
+                        "IpProtocol": "-1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "network"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "db sg"
+                    }
+                ]
+            }
+        },
+        "webserver": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "KeyName": {
+                    "Ref": "keypair"
+                },
+                "ImageId": {
+                    "Ref": "ami"
+                },
+                "InstanceType": "t2.micro",
+                "Monitoring": "false",
+                "NetworkInterfaces": [
+                    {
+                        "AssociatePublicIpAddress": true,
+                        "GroupSet": [
+                            {
+                                "Ref": "websg"
+                            }
+                        ],
+                        "SubnetId": {
+                            "Ref": "web"
+                        },
+                        "DeviceIndex": "0"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "webserver"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash -xe\n",
+                                "apt update\n",
+                                "apt install nginx unzip -y\n",
+                                "cd /tmp && wget https://www.free-css.com/assets/files/free-css-templates/download/page296/browny.zip\n",
+                                "unzip /tmp/browny.zip\n",
+                                "mv /tmp/browny-v1.0/ /var/www/html/browny/\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "vpcid": {
+            "Value": {
+                "Ref": "network"
+            }
+        },
+        "websubnetid": {
+            "Value": {
+                "Ref": "web"
+            }
+        },
+        "dbsubnetid": {
+            "Value": {
+                "Ref": "db"
+            }
+        },
+        "brownyurl": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "webserver",
+                                "PublicIp"
+                            ]
+                        },
+                        "/browny"
+                    ]
+                ]
+            }
+        }
+    }
+}
